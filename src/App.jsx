@@ -42,10 +42,17 @@ const SCHOOL_CONFIG = {
 };
 
 // Detect school from URL path: /aps, /kgbv, /samajkalyan
+// BASE_URL is '/Account-Recovery-WebApp/' on GitHub Pages and '/' locally
+const BASE = import.meta.env.BASE_URL;
 const getSchoolFromPath = () => {
-  const path = window.location.pathname.replace(/^\//, '').toLowerCase();
-  if (path === '' || path === '/') {
-    window.location.replace('/aps');
+  const basePath = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
+  const path = window.location.pathname
+    .replace(basePath, '')
+    .replace(/^\//, '')
+    .replace(/\/$/, '')
+    .toLowerCase();
+  if (path === '') {
+    window.location.replace(BASE + 'aps');
     return null;
   }
   return SCHOOL_CONFIG[path] ? path : null;
@@ -65,9 +72,9 @@ function NotFound() {
           <span>Choose a school portal to continue</span>
         </div>
         <div className="school-links">
-          <a href="/aps" className="school-link-btn">🏫 APS Schools</a>
-          <a href="/kgbv" className="school-link-btn">🏫 KGBV Schools</a>
-          <a href="/samajkalyan" className="school-link-btn">🏫 Samaj Kalyan</a>
+          <a href={`${BASE}aps`} className="school-link-btn">🏫 APS Schools</a>
+          <a href={`${BASE}kgbv`} className="school-link-btn">🏫 KGBV Schools</a>
+          <a href={`${BASE}samajkalyan`} className="school-link-btn">🏫 Samaj Kalyan</a>
         </div>
       </div>
     </div>
@@ -87,7 +94,7 @@ function App() {
 
   useEffect(() => {
     if (!config) return;
-    fetch('/students.json', {
+    fetch(BASE + 'students.json', {
       headers: { 'Bypass-Tunnel-Reminder': 'true' }
     })
       .then(res => {
