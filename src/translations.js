@@ -63,6 +63,7 @@ const translations = {
     kgbv_schools_available: 'schools across UP',
     kgbv_students_count: 'Total Students',
     kgbv_students_registered: 'students registered',
+    kgbv_gallery_title: 'KGBV Glimpses',
 
     // Samaj Kalyan specific
     sk_retrieve_title: 'Retrieve Your Credentials',
@@ -80,6 +81,7 @@ const translations = {
     sk_schools_available: 'schools across UP',
     sk_students_count: 'Total Students',
     sk_students_registered: 'students registered',
+    sk_gallery_title: 'Ashram School Glimpses',
     sk_about_title: 'Education for Social Equality',
     sk_about_desc: 'Samaj Kalyan Ashram Vidyalayas provide inclusive, high-quality residential education aimed at uplifting marginalized communities. We foster an environment of equality, social justice, and excellence to build a stronger society.',
     sk_services_title: 'What We Provide',
@@ -178,6 +180,7 @@ const translations = {
     kgbv_schools_available: 'स्कूल यूपी भर में',
     kgbv_students_count: 'कुल छात्राएं',
     kgbv_students_registered: 'छात्राएं पंजीकृत',
+    kgbv_gallery_title: 'KGBV की झलकियाँ',
 
     // Samaj Kalyan specific
     sk_retrieve_title: 'अपने क्रेडेंशियल प्राप्त करें',
@@ -195,6 +198,7 @@ const translations = {
     sk_schools_available: 'स्कूल यूपी भर में',
     sk_students_count: 'कुल छात्र',
     sk_students_registered: 'छात्र पंजीकृत',
+    sk_gallery_title: 'आश्रम स्कूल की झलकियाँ',
     sk_about_title: 'सामाजिक समानता के लिए शिक्षा',
     sk_about_desc: 'समाज कल्याण आश्रम विद्यालय हाशिए पर रहने वाले समुदायों के उत्थान के उद्देश्य से समावेशी, उच्च गुणवत्ता वाली आवासीय शिक्षा प्रदान करते हैं। हम एक मजबूत समाज के निर्माण के लिए समानता, सामाजिक न्याय और उत्कृष्टता के माहौल को बढ़ावा देते हैं।',
     sk_services_title: 'हम क्या प्रदान करते हैं',

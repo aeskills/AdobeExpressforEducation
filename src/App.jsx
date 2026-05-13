@@ -171,6 +171,30 @@ function NotFound({ t }) {
   );
 }
 
+// --- Image Slider Component ---
+function TrendlineSlider({ images, title }) {
+  return (
+    <section className="trendline-section">
+      {title && <h2 className="section-title">{title}</h2>}
+      <div className="trendline-container">
+        <div className="trendline-track">
+          {images.map((src, idx) => (
+            <div key={`slide1-${idx}`} className="trendline-slide">
+              <img src={src} alt={`School Slide ${idx + 1}`} loading="lazy" />
+            </div>
+          ))}
+          {/* Duplicate for infinite loop */}
+          {images.map((src, idx) => (
+            <div key={`slide2-${idx}`} className="trendline-slide">
+              <img src={src} alt={`School Slide ${idx + 1}`} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // --- Result Display (shared) ---
 function ResultDisplay({ result, t, copiedField, copyToClipboard }) {
   return (
@@ -275,6 +299,14 @@ function KGBVApp({ lang, t, toggleLang }) {
     return () => document.removeEventListener('click', handler);
   }, []);
 
+  const kgbvTrendlineImages = [
+    'https://www.samagrashikshaup.in/upefapb_images/KGBV/KGBV1.jpg',
+    'https://www.samagrashikshaup.in/upefapb_images/KGBV/KGBV2.jpg',
+    'https://www.samagrashikshaup.in/upefapb_images/KGBV/KGBV3.jpg',
+    'https://www.samagrashikshaup.in/upefapb_images/KGBV/KGBV4.png',
+    'https://www.samagrashikshaup.in/upefapb_images/KGBV/KGBV5.jpg'
+  ];
+
   // HOME PAGE
   if (page === 'home') {
     return (
@@ -283,6 +315,8 @@ function KGBVApp({ lang, t, toggleLang }) {
         <Navbar schoolPath="kgbv" lang={lang} t={t} toggleLang={toggleLang} />
         <HeroSection schoolPath="kgbv" t={t} heroImgSrc={heroImgSrc} />
         <FeaturesBar schoolPath="kgbv" t={t} />
+
+        <TrendlineSlider images={kgbvTrendlineImages} title={t('kgbv_gallery_title') || 'School Gallery'} />
 
         <section className="about-section" id="main-content">
           <h2 className="section-title">{t('kgbv_about_title')}</h2>
@@ -585,6 +619,14 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
     return () => document.removeEventListener('click', handler);
   }, []);
 
+  const skTrendlineImages = [
+    'https://rapvmohanlko.in/public/aliganj/img/main-slider/1.jpg',
+    'https://rapvmohanlko.in/public/aliganj/img/main-slider/2.jpg',
+    'https://rapvmohanlko.in/public/aliganj/img/main-slider/3.jpg',
+    'https://rapvmohanlko.in/public/aliganj/img/gallery/1.jpg',
+    'https://rapvmohanlko.in/public/aliganj/img/gallery/2.jpg'
+  ];
+
   if (page === 'home') {
     return (
       <>
@@ -592,6 +634,8 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
         <Navbar schoolPath="samajkalyan" lang={lang} t={t} toggleLang={toggleLang} />
         <HeroSection schoolPath="samajkalyan" t={t} heroImgSrc={heroImgSrc} />
         <FeaturesBar schoolPath="samajkalyan" t={t} />
+
+        <TrendlineSlider images={skTrendlineImages} title={t('sk_gallery_title') || 'Ashram Gallery'} />
 
         <section className="about-section" id="main-content">
           <h2 className="section-title">{t('sk_about_title')}</h2>
