@@ -32,7 +32,7 @@ const SCHOOL_CONFIG = {
 const getSchoolFromPath = () => {
   const basePath = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
   const path = window.location.pathname.replace(basePath, '').replace(/^\//, '').replace(/\/$/, '').toLowerCase();
-  if (path === '') { window.location.replace(BASE + 'kgbv'); return null; }
+  if (path === '') return 'landing';
   return SCHOOL_CONFIG[path] ? path : null;
 };
 
@@ -60,8 +60,6 @@ const NAV_BRANDS = {
 
 function Navbar({ schoolPath, lang, t, toggleLang }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const navSchools = ['kgbv', 'samajkalyan'];
-  const schoolLabels = { kgbv: t('school_kgbv'), samajkalyan: t('school_samajkalyan') };
   const brand = NAV_BRANDS[schoolPath] || NAV_BRANDS.kgbv;
   const brandText = lang === 'hi' ? brand.hi : brand.en;
   return (
@@ -72,9 +70,6 @@ function Navbar({ schoolPath, lang, t, toggleLang }) {
           <span className="nav-brand-text">{brandText}</span>
         </a>
         <div className="nav-links">
-          {navSchools.map(s => (
-            <a key={s} href={`${BASE}${s}`} className={`nav-school-link ${schoolPath === s ? 'active' : ''}`}>{schoolLabels[s]}</a>
-          ))}
           <button className="lang-toggle" onClick={toggleLang} aria-label={`Switch to ${lang === 'en' ? 'Hindi' : 'English'}`}>
             <Globe size={15} className="globe-icon" /> {t('lang_toggle')}
           </button>
@@ -84,9 +79,6 @@ function Navbar({ schoolPath, lang, t, toggleLang }) {
       <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(false)}>
         <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
           <button className="mobile-menu-close" onClick={() => setMobileOpen(false)} aria-label="Close menu"><X size={20} /></button>
-          {navSchools.map(s => (
-            <a key={s} href={`${BASE}${s}`} className={`mobile-menu-link ${schoolPath === s ? 'active' : ''}`} onClick={() => setMobileOpen(false)}>{schoolLabels[s]}</a>
-          ))}
           <button className="lang-toggle" onClick={() => { toggleLang(); setMobileOpen(false); }} style={{ marginTop: '12px' }}>
             <Globe size={15} /> {t('lang_toggle')}
           </button>
@@ -313,7 +305,11 @@ function KGBVApp({ lang, t, toggleLang }) {
       <>
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <Navbar schoolPath="kgbv" lang={lang} t={t} toggleLang={toggleLang} />
-        <HeroSection schoolPath="kgbv" t={t} heroImgSrc={heroImgSrc} />
+        <HeroSection schoolPath="kgbv" t={t} heroImgSrc={heroImgSrc}>
+          <button className="hero-cta-button shine-effect pulse-glow" onClick={() => setPage('retrieve')}>
+            <Key size={20} className="cta-icon" /> {t('retrieve_cta')} →
+          </button>
+        </HeroSection>
         <FeaturesBar schoolPath="kgbv" t={t} />
 
         <TrendlineSlider images={kgbvTrendlineImages} title={t('kgbv_gallery_title') || 'School Gallery'} />
@@ -328,9 +324,8 @@ function KGBVApp({ lang, t, toggleLang }) {
           <div className="services-grid">
             <div className="service-card"><div className="service-icon">📚</div><h3>{t('kgbv_service_edu')}</h3><p>{t('kgbv_service_edu_desc')}</p></div>
             <div className="service-card"><div className="service-icon">🏠</div><h3>{t('kgbv_service_hostel')}</h3><p>{t('kgbv_service_hostel_desc')}</p></div>
-            <div className="service-card highlight-card" onClick={() => setPage('retrieve')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setPage('retrieve')}>
+            <div className="service-card">
               <div className="service-icon">🔑</div><h3>{t('kgbv_service_recovery')}</h3><p>{t('kgbv_service_recovery_desc')}</p>
-              <span className="service-action">{t('retrieve_cta')} →</span>
             </div>
             <div className="service-card"><div className="service-icon">🌟</div><h3>{t('kgbv_service_empower')}</h3><p>{t('kgbv_service_empower_desc')}</p></div>
           </div>
@@ -632,7 +627,11 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
       <>
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <Navbar schoolPath="samajkalyan" lang={lang} t={t} toggleLang={toggleLang} />
-        <HeroSection schoolPath="samajkalyan" t={t} heroImgSrc={heroImgSrc} />
+        <HeroSection schoolPath="samajkalyan" t={t} heroImgSrc={heroImgSrc}>
+          <button className="hero-cta-button shine-effect pulse-glow" onClick={() => setPage('retrieve')}>
+            <Key size={20} className="cta-icon" /> {t('retrieve_cta')} →
+          </button>
+        </HeroSection>
         <FeaturesBar schoolPath="samajkalyan" t={t} />
 
         <TrendlineSlider images={skTrendlineImages} title={t('sk_gallery_title') || 'Ashram Gallery'} />
@@ -647,9 +646,8 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
           <div className="services-grid">
             <div className="service-card"><div className="service-icon">📚</div><h3>{t('sk_service_edu')}</h3><p>{t('sk_service_edu_desc')}</p></div>
             <div className="service-card"><div className="service-icon">🤝</div><h3>{t('sk_service_community')}</h3><p>{t('sk_service_community_desc')}</p></div>
-            <div className="service-card highlight-card" onClick={() => setPage('retrieve')} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && setPage('retrieve')}>
+            <div className="service-card">
               <div className="service-icon">🔑</div><h3>{t('sk_service_recovery')}</h3><p>{t('sk_service_recovery_desc')}</p>
-              <span className="service-action">{t('retrieve_cta')} →</span>
             </div>
             <div className="service-card"><div className="service-icon">🌱</div><h3>{t('sk_service_welfare')}</h3><p>{t('sk_service_welfare_desc')}</p></div>
           </div>
@@ -739,16 +737,49 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
   );
 }
 
+// --- Landing Page ---
+function LandingPage({ t }) {
+  return (
+    <div className="landing-page-container">
+      <div className="landing-card">
+        <h1 className="landing-title">Choose a school portal to continue</h1>
+        <div className="landing-links">
+          <a href={`${BASE}kgbv`} className="landing-link-btn">🌸 KGBV Schools</a>
+          <a href={`${BASE}samajkalyan`} className="landing-link-btn">🌿 Samaj Kalyan</a>
+          <a href={`${BASE}aps`} className="landing-link-btn">🛡️ Army Public Schools</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ==================== ROOT APP ====================
 function App() {
   const schoolPath = getSchoolFromPath();
-  const config = schoolPath ? SCHOOL_CONFIG[schoolPath] : null;
+  const config = schoolPath && schoolPath !== 'landing' ? SCHOOL_CONFIG[schoolPath] : null;
   const { lang, t, toggleLang } = useLang(schoolPath);
 
   useEffect(() => {
-    if (schoolPath) document.documentElement.setAttribute('data-school', schoolPath);
-    return () => document.documentElement.removeAttribute('data-school');
+    if (schoolPath && schoolPath !== 'landing') {
+      document.documentElement.setAttribute('data-school', schoolPath);
+      
+      // Block browser back button to prevent navigating to other segments
+      window.history.pushState(null, '', window.location.href);
+      const handlePopState = () => {
+        window.history.pushState(null, '', window.location.href);
+      };
+      window.addEventListener('popstate', handlePopState);
+      
+      return () => {
+        document.documentElement.removeAttribute('data-school');
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
   }, [schoolPath]);
+
+  if (schoolPath === 'landing') {
+    return <LandingPage t={t} />;
+  }
 
   if (!config) {
     return (<><Navbar schoolPath={null} lang={lang} t={t} toggleLang={toggleLang} /><NotFound t={t} /><Footer t={t} /></>);
