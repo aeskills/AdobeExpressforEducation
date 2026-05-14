@@ -717,9 +717,6 @@ function APSApp({ lang, t, toggleLang }) {
 
         <section className="important-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
           <div style={{ background: '#ffffff', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {/* <h2 style={{ fontSize: '26px', fontWeight: '700', textAlign: 'center', marginBottom: '24px', color: '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '28px' }}>⚠️</span> Important
-            </h2> */}
             <p style={{ fontSize: '16px', color: '#334155', marginBottom: '32px', lineHeight: '1.6', textAlign: 'center', maxWidth: '680px' }}>
               Create engaging educational posters, assignments, presentations, videos, webpages & social media creatives effortlessly with <a href="https://new.express.adobe.com/" target="_blank" rel="noreferrer" style={{ color: '#1e6ce8ff', fontWeight: '700', textDecoration: 'underline' }}>Adobe Express</a> — powered by AI tools and ready-to-use academic templates.
             </p>
@@ -804,7 +801,7 @@ function APSApp({ lang, t, toggleLang }) {
                       style={{ flex: 1, padding: '15px', borderRadius: '8px', border: teacherSearchMode === 'named' ? '2px solid #8b5cf6' : '1px solid #ccc', background: teacherSearchMode === 'named' ? '#f5f3ff' : '#fff', color: teacherSearchMode === 'named' ? '#8b5cf6' : '#666', cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', transition: 'all 0.2s ease' }}>
                       <span style={{display: 'block', fontSize: '18px', marginBottom: '4px'}}>👨‍🏫</span> Teacher Name Search
                     </button>
-                                        <button 
+                    <button 
                       className={`mode-tile ${teacherSearchMode === 'generic' ? 'active' : ''}`}
                       onClick={() => { setTeacherSearchMode('generic'); setSelectedTeacherSchool(''); setTeacherNameSearch(''); setResult(null); setError(''); }}
                       style={{ flex: 1, padding: '15px', borderRadius: '8px', border: teacherSearchMode === 'generic' ? '2px solid #8b5cf6' : '1px solid #ccc', background: teacherSearchMode === 'generic' ? '#f5f3ff' : '#fff', color: teacherSearchMode === 'generic' ? '#8b5cf6' : '#666', cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', transition: 'all 0.2s ease' }}>

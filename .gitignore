@@ -26,3 +26,5 @@ dist-ssr
 # Large data files - do not push to GitHub
 *.csv
 public/students.json
+public/teachers.json
+public/teachers_named.json
