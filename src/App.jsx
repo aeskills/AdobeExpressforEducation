@@ -56,7 +56,7 @@ const NAV_BRANDS = {
   kgbv: { icon: '🌸', en: 'Kasturba Gandhi Balika Vidyalaya', hi: 'कस्तूरबा गांधी बालिका विद्यालय' },
   samajkalyan: { icon: '🌿', en: 'Samaj Kalyan Ashram Schools', hi: 'समाज कल्याण आश्रम विद्यालय' },
   aps: { 
-    icon: null,
+    icon: '🛡️',
     en: 'Army Public School X Adobe Express', 
     hi: 'आर्मी पब्लिक स्कूल X एडोबी एक्सप्रेस' 
   },
