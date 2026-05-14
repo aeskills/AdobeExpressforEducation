@@ -21,10 +21,21 @@ const translations = {
     kgbv_stat_districts: 'Districts Reached',
 
     // Hero — APS
-    aps_hero_title: 'APS UP Account Recovery',
-    aps_hero_subtitle: 'Serving with Excellence',
-    aps_tagline: 'Building Leaders, Inspiring Excellence Across 4,32,000+ Students',
-    aps_feature1: 'Discipline & Excellence', aps_feature2: 'Character Development', aps_feature3: 'All-India Standards',
+    aps_hero_title: 'Adobe Express for Education',
+    aps_retrieve_cta: 'Forgot My AE User ID ? Click here',
+    // aps_hero_subtitle: 'Serving with Excellence',
+    // aps_tagline: 'Building Leaders, Inspiring Excellence Across 4,32,000+ Students',
+    aps_feature1: 'Activity of the Month', aps_feature2: 'CPD Programs for Teachers', aps_feature3: 'Adobe Express Activities',
+    aps_about_title: 'About Adobe Express for Education',
+    aps_about_desc: 'Adobe Express for Education helps schools introduce digital creativity and AI skills for students (grades 3-12) while supporting teachers with professional development and Adobe Creative Educator certification, along with free Adobe Express premium access for students, teachers and administrators',
+    aps_services_title: 'Our Facilities',
+    aps_service_edu: 'Quality Education', aps_service_edu_desc: 'Aligned with NEP and SDG for comprehensive learning.',
+    aps_service_fdrc: 'FDRC', aps_service_fdrc_desc: 'Professional Development Programs for teachers.',
+    aps_service_infra: 'Modern Labs', aps_service_infra_desc: 'Science, Math, Language, Computer, and Robotics Labs.',
+    aps_service_counsel: 'Guidance Cell', aps_service_counsel_desc: 'Counselling and Scholarship Programs for students.',
+    aps_stat_schools: 'APS Schools',
+    aps_stat_students: 'Total Students',
+    aps_stat_teachers: 'Teaching Staff',
 
     // Hero — SamajKalyan
     samajkalyan_hero_title: 'Samaj Kalyan Account Recovery',
@@ -112,7 +123,6 @@ const translations = {
     footer_privacy: 'Privacy Policy', footer_terms: 'Terms & Conditions', footer_contact: 'Contact Support',
 
     // School labels
-    label_aps: 'Army Public Schools UP',
     label_kgbv: 'Kasturba Gandhi Balika Vidyalaya',
     label_samajkalyan: 'Samaj Kalyan Ashram Schools',
   },
@@ -138,10 +148,21 @@ const translations = {
     kgbv_stat_districts: 'जिलों तक पहुँच',
 
     // Hero — APS
-    aps_hero_title: 'APS UP खाता पुनर्प्राप्ति',
-    aps_hero_subtitle: 'उत्कृष्टता के साथ सेवा',
-    aps_tagline: '4,32,000+ छात्रों में नेतृत्व निर्माण, उत्कृष्टता को प्रेरित करना',
-    aps_feature1: 'अनुशासन और उत्कृष्टता', aps_feature2: 'चरित्र विकास', aps_feature3: 'भारत-व्यापी मानक',
+    aps_hero_title: 'एडोबी एक्सप्रेस फॉर एजुकेशन',
+    aps_retrieve_cta: 'अपना AE यूजर आईडी भूल गए? यहां क्लिक करें',
+    // aps_hero_subtitle: 'उत्कृष्टता के साथ सेवा',
+    // aps_tagline: '4,32,000+ छात्रों में नेतृत्व निर्माण, उत्कृष्टता को प्रेरित करना',
+    aps_feature1: 'महीने की गतिविधि', aps_feature2: 'शिक्षकों के लिए सीपीडी कार्यक्रम', aps_feature3: 'एडोबी एक्सप्रेस गतिविधियाँ',
+    aps_about_title: 'एडोबी एक्सप्रेस फॉर एजुकेशन के बारे में',
+    aps_about_desc: 'शिक्षा के लिए एडोब एक्सप्रेस स्कूलों को छात्रों (ग्रेड 3-12) के लिए डिजिटल रचनात्मकता और एआई कौशल पेश करने में मदद करता है, जबकि पेशेवर विकास और एडोब क्रिएटिव एजुकेटर प्रमाणन के साथ शिक्षकों का समर्थन करता है, साथ ही छात्रों, शिक्षकों और प्रशासकों के लिए मुफ्त एडोब एक्सप्रेस प्रीमियम एक्सेस प्रदान करता है।',
+    aps_services_title: 'हमारी सुविधाएँ',
+    aps_service_edu: 'गुणवत्तापूर्ण शिक्षा', aps_service_edu_desc: 'व्यापक शिक्षा के लिए NEP और SDG के साथ संरेखित।',
+    aps_service_fdrc: 'FDRC', aps_service_fdrc_desc: 'शिक्षकों के लिए व्यावसायिक विकास कार्यक्रम।',
+    aps_service_infra: 'आधुनिक लैब्स', aps_service_infra_desc: 'विज्ञान, गणित, भाषा, कंप्यूटर और रोबोटिक्स लैब्स।',
+    aps_service_counsel: 'मार्गदर्शन सेल', aps_service_counsel_desc: 'छात्रों के लिए परामर्श और छात्रवृत्ति कार्यक्रम।',
+    aps_stat_schools: 'APS स्कूल',
+    aps_stat_students: 'कुल छात्र',
+    aps_stat_teachers: 'शिक्षक कर्मचारी',
 
     // Hero — SamajKalyan
     samajkalyan_hero_title: 'समाज कल्याण खाता पुनर्प्राप्ति',
@@ -229,7 +250,6 @@ const translations = {
     footer_privacy: 'गोपनीयता नीति', footer_terms: 'शर्तें और शर्तें', footer_contact: 'समर्थन से संपर्क करें',
 
     // School labels
-    label_aps: 'आर्मी पब्लिक स्कूल यूपी',
     label_kgbv: 'कस्तूरबा गांधी बालिका विद्यालय',
     label_samajkalyan: 'समाज कल्याण आश्रम स्कूल',
   },

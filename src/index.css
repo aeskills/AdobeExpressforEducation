@@ -107,15 +107,15 @@ body {
   text-decoration: none; color: var(--primary);
 }
 .nav-brand-icon {
-  width: 36px; height: 36px;
+  width: 44px; height: 44px;
   background: var(--gradient);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 18px;
+  color: #fff; font-size: 22px;
 }
 .nav-brand-text {
   font-family: 'Poppins', sans-serif;
-  font-weight: 700; font-size: 16px;
+  font-weight: 800; font-size: 20px;
   color: var(--text-dark);
 }
 
@@ -217,7 +217,7 @@ body {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 41%;
   transition: filter 0.6s ease, transform 0.6s ease;
   will-change: filter, transform;
 }
@@ -300,12 +300,12 @@ body {
   box-shadow: var(--shadow-xl);
 }
 .feature-icon {
-  width: 44px; height: 44px;
+  width: 64px; height: 64px;
   background: var(--bg-light);
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 12px;
-  font-size: 22px;
+  margin: 0 auto 16px;
+  font-size: 32px;
 }
 .feature-text {
   font-size: 13px; font-weight: 600;
@@ -325,7 +325,6 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
-  overflow: hidden;
   animation: slideUp 0.5s ease;
 }
 
@@ -333,6 +332,7 @@ body {
   padding: 24px 28px 20px;
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; gap: 12px;
+  border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0;
 }
 .recovery-card-icon {
   width: 40px; height: 40px;
@@ -973,3 +973,85 @@ body {
   background: #f1f5f9; border-color: #cbd5e1;
   transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
+
+/* ===== FLOATING STICKY CTA ===== */
+.floating-cta-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px 24px;
+  background: var(--gradient);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.9);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+.floating-cta-button.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+.floating-cta-button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  border-color: #fff;
+}
+.floating-cta-button .cta-icon {
+  animation: bounceRight 2s infinite;
+}
+
+@media (max-width: 639px) {
+  .floating-cta-button {
+    bottom: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+}
+
+/* ===== SUB-NAVBAR TABS ===== */
+.sub-navbar-tabs {
+  display: flex; justify-content: flex-start; align-items: center; gap: 12px;
+  padding: 12px 24px; background: #fff; border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); position: sticky; top: 60px; z-index: 90;
+  overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.sub-navbar-tabs::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) {
+  .sub-navbar-tabs { justify-content: center; }
+}
+.sub-tab {
+  padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 14px;
+  border: 1px solid var(--border-light); background: #f8fafc; color: var(--text-muted);
+  cursor: pointer; transition: all 0.2s ease;
+}
+.sub-tab:hover { background: #f1f5f9; color: var(--text-dark); }
+.sub-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Theme specific overrides */
+.theme-atomic .action-button, .theme-atomic .recovery-card-icon { background: #0ea5e9; }
+.theme-atomic .recovery-card-header { background: linear-gradient(135deg, #0ea5e9, #0284c7); border-bottom: none; }
+.theme-atomic.sub-tab.active { background: #0ea5e9; border-color: #0ea5e9; }
+
+.theme-kles .action-button, .theme-kles .recovery-card-icon { background: #10b981; }
+.theme-kles .recovery-card-header { background: linear-gradient(135deg, #10b981, #059669); border-bottom: none; }
+.theme-kles.sub-tab.active { background: #10b981; border-color: #10b981; }
+
+.theme-teachers .action-button, .theme-teachers .recovery-card-icon { background: #8b5cf6; }
+.theme-teachers .recovery-card-header { background: linear-gradient(135deg, #8b5cf6, #6d28d9); border-bottom: none; }
+.theme-teachers.sub-tab.active { background: #8b5cf6; border-color: #8b5cf6; }
+
+.theme-atomic .recovery-card-title, .theme-kles .recovery-card-title, .theme-teachers .recovery-card-title { color: #fff; }
+.theme-atomic .recovery-card-subtitle, .theme-kles .recovery-card-subtitle, .theme-teachers .recovery-card-subtitle { color: rgba(255, 255, 255, 0.85); }
+.theme-atomic .recovery-card-icon, .theme-kles .recovery-card-icon, .theme-teachers .recovery-card-icon { background: rgba(255, 255, 255, 0.2); }
