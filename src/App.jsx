@@ -789,7 +789,7 @@ function APSApp({ lang, t, toggleLang }) {
   }
 
   const themeClass = activeTab === 'atomic' ? 'theme-atomic' : activeTab === 'kles' ? 'theme-kles' : activeTab === 'teachers' ? 'theme-teachers' : '';
-  const title = activeTab === 'aps' ? t('page_title') : activeTab === 'atomic' ? 'Atomic Energy Recovery' : activeTab === 'kles' ? 'KLES Recovery' : "Teacher's User ID Recovery";
+  const title = activeTab === 'aps' ? "Student's User ID Recovery" : activeTab === 'teachers' ? "Teacher's User ID Recovery" : activeTab === 'atomic' ? 'Atomic Energy Recovery' : 'KLES Recovery';
   const subtitlePrefix = activeTab === 'aps' ? t('subtitle_loaded') : 'Instantly retrieve credentials for';
   
   const activeTeachersData = teacherSearchMode === 'named' ? namedTeachersData : teachersData;
@@ -823,7 +823,7 @@ function APSApp({ lang, t, toggleLang }) {
               <div className="recovery-card-icon"><Key size={20} /></div>
               <div>
                 <div className="recovery-card-title">{title}</div>
-                {activeTab !== 'teachers' && (
+                {(activeTab !== 'teachers' && activeTab !== 'aps') && (
                   <div className="recovery-card-subtitle">
                     {isLoaded ? `${subtitlePrefix} ${currentDataCount.toLocaleString()} ${t('subtitle_students')}` : t('portal_title')}
                   </div>
@@ -831,7 +831,7 @@ function APSApp({ lang, t, toggleLang }) {
               </div>
             </div>
             <div className="recovery-card-body">
-              {activeTab !== 'teachers' && (
+              {(activeTab !== 'teachers' && activeTab !== 'aps') && (
                 <div className="info-banner" role="note"><Info className="icon" size={18} /><span>{t('info_banner')}</span></div>
               )}
               
