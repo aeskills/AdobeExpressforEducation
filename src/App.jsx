@@ -11,11 +11,7 @@ const SCHOOL_CONFIG = {
     placeholder: 'E.G., APS-BRI-2025-3A-1880',
     samples: ['APS-BRI-2025-3A-1880', 'APS-BRI-2025-3A-1886', 'APS-BRI-2025-3A-2144'],
     heroIcon: '', featureIcons: ['🎖️', '📚', '🏆'],
-    fallback: [
-      { id: 'APS-BRI-2025-3A-1880', name: 'Nakul Hemand K R', email: 'brichgunj1880@awesaps.in', password: 'APS@2025', school: 'APS' },
-      { id: 'APS-BRI-2025-3A-1886', name: 'S Jesvanth', email: 'brichgunj1886@awesaps.in', password: 'APS@2025', school: 'APS' },
-      { id: 'APS-BRI-2025-3A-2144', name: 'Veer Swastik Soren', email: 'brichgunj2144@awesaps.in', password: 'APS@2025', school: 'APS' },
-    ],
+    fallback: [],
   },
   kgbv: {
     key: 'KGBV', label: 'KGBV Schools',
