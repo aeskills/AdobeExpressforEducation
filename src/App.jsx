@@ -480,6 +480,15 @@ function KGBVApp({ lang, t, toggleLang }) {
 }
 
 // ==================== APS / SAMAJKALYAN APP (unchanged) ====================
+const TabsHeader = ({ activeTab, setActiveTab, setPage, setUid, setResult, setError }) => (
+  <div className="sub-navbar-tabs">
+    <button className={`sub-tab ${activeTab === 'aps' ? 'active' : ''}`} onClick={() => {setActiveTab('aps'); setPage('home'); setUid(''); setResult(null); setError('');}}>APS Students</button>
+    {/* <button className={`sub-tab ${activeTab === 'atomic' ? 'active' : ''}`} onClick={() => {setActiveTab('atomic'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>Atomic Energy</button> */}
+    {/* <button className={`sub-tab ${activeTab === 'kles' ? 'active' : ''}`} onClick={() => {setActiveTab('kles'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>KLES</button> */}
+    <button className={`sub-tab ${activeTab === 'teachers' ? 'active' : ''}`} onClick={() => {setActiveTab('teachers'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>APS Teachers</button>
+  </div>
+);
+
 // --- APS App ---
 function APSApp({ lang, t, toggleLang }) {
   const schoolPath = 'aps';
@@ -668,21 +677,13 @@ function APSApp({ lang, t, toggleLang }) {
     setCopiedField(field); setTimeout(() => setCopiedField(''), 2000);
   };
 
-  const TabsHeader = () => (
-    <div className="sub-navbar-tabs">
-      <button className={`sub-tab ${activeTab === 'aps' ? 'active' : ''}`} onClick={() => {setActiveTab('aps'); setPage('home'); setUid(''); setResult(null); setError('');}}>APS Students</button>
-      {/* <button className={`sub-tab ${activeTab === 'atomic' ? 'active' : ''}`} onClick={() => {setActiveTab('atomic'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>Atomic Energy</button> */}
-      {/* <button className={`sub-tab ${activeTab === 'kles' ? 'active' : ''}`} onClick={() => {setActiveTab('kles'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>KLES</button> */}
-      <button className={`sub-tab ${activeTab === 'teachers' ? 'active' : ''}`} onClick={() => {setActiveTab('teachers'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>APS Teachers</button>
-    </div>
-  );
 
   if (page === 'home' && activeTab === 'aps') {
     return (
       <>
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <Navbar schoolPath={schoolPath} lang={lang} t={t} toggleLang={toggleLang} />
-        <TabsHeader />
+        <TabsHeader activeTab={activeTab} setActiveTab={setActiveTab} setPage={setPage} setUid={setUid} setResult={setResult} setError={setError} />
         <HeroSection schoolPath={schoolPath} t={t} heroImgSrc={heroImgSrc}>
           <button className="hero-cta-button shine-effect pulse-glow" onClick={() => setPage('retrieve')}>
             <Key size={20} className="cta-icon" /> {t('aps_retrieve_cta') || t('retrieve_cta')}
@@ -767,7 +768,7 @@ function APSApp({ lang, t, toggleLang }) {
     <>
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Navbar schoolPath={schoolPath} lang={lang} t={t} toggleLang={toggleLang} />
-      <TabsHeader />
+      <TabsHeader activeTab={activeTab} setActiveTab={setActiveTab} setPage={setPage} setUid={setUid} setResult={setResult} setError={setError} />
       <div className={`retrieve-page ${themeClass}`}>
         {activeTab === 'aps' && (
           <button className="back-button" onClick={() => { setPage('home'); setResult(null); setError(''); }}>
