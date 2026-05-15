@@ -520,7 +520,6 @@ function APSApp({ lang, t, toggleLang }) {
   const [namedTeachersLoaded, setNamedTeachersLoaded] = useState(false);
   const [showStickyCta, setShowStickyCta] = useState(false);
   const [teacherSearchMode, setTeacherSearchMode] = useState('named');
-  const [apsSearchMode, setApsSearchMode] = useState('generic');
   const [selectedApsSchool, setSelectedApsSchool] = useState('');
   const [apsSchoolSearch, setApsSchoolSearch] = useState('');
   const [apsSchoolDropdownOpen, setApsSchoolDropdownOpen] = useState(false);
@@ -614,7 +613,7 @@ function APSApp({ lang, t, toggleLang }) {
     setError(''); setResult(null);
     if (!uid) { setError(t('enter_uid')); return; }
     
-    if (activeTab === 'aps' && apsSearchMode === 'branch') {
+    if (activeTab === 'aps') {
       if (!selectedApsSchool) { setError('Please select an APS school'); return; }
       const found = data.find(s => 
         s.school === 'APS' && 
@@ -625,7 +624,7 @@ function APSApp({ lang, t, toggleLang }) {
       return;
     }
 
-    const currentKey = activeTab === 'aps' ? configAPS.key : activeTab === 'atomic' ? 'ATOMIC' : 'KLES';
+    const currentKey = activeTab === 'atomic' ? 'ATOMIC' : 'KLES';
     const found = data.find(s => s.school === currentKey && s.id === uid);
     if (found) setResult(found); else setError(t('invalid_id'));
   };
@@ -838,53 +837,33 @@ function APSApp({ lang, t, toggleLang }) {
               
               {activeTab === 'aps' && (
                 <>
-                  <div className="teacher-mode-tiles" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                    <button 
-                      className={`mode-tile ${apsSearchMode === 'branch' ? 'active' : ''}`}
-                      onClick={() => { setApsSearchMode('branch'); setSelectedApsSchool(''); setUid(''); setResult(null); setError(''); }}
-                      style={{ flex: 1, padding: '15px', borderRadius: '8px', border: apsSearchMode === 'branch' ? '2px solid #3454b4' : '1px solid #ccc', background: apsSearchMode === 'branch' ? '#f0f4ff' : '#fff', color: apsSearchMode === 'branch' ? '#3454b4' : '#666', cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', transition: 'all 0.2s ease' }}>
-                      <span style={{display: 'block', fontSize: '18px', marginBottom: '4px'}}>🏫</span> Branch Search
-                    </button>
-                    <button 
-                      className={`mode-tile ${apsSearchMode === 'generic' ? 'active' : ''}`}
-                      onClick={() => { setApsSearchMode('generic'); setSelectedApsSchool(''); setUid(''); setResult(null); setError(''); }}
-                      style={{ flex: 1, padding: '15px', borderRadius: '8px', border: apsSearchMode === 'generic' ? '2px solid #3454b4' : '1px solid #ccc', background: apsSearchMode === 'generic' ? '#f0f4ff' : '#fff', color: apsSearchMode === 'generic' ? '#3454b4' : '#666', cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', transition: 'all 0.2s ease' }}>
-                      <span style={{display: 'block', fontSize: '18px', marginBottom: '4px'}}>🆔</span> Generic ID Search
-                    </button>
-                  </div>
-
-                  {apsSearchMode === 'branch' && (
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label className="label">Step 1: Select Branch</label>
-                      <div className="custom-dropdown aps-school-dropdown">
-                        <button className={`dropdown-trigger ${apsSchoolDropdownOpen ? 'open' : ''}`} onClick={() => setApsSchoolDropdownOpen(!apsSchoolDropdownOpen)} type="button">
-                          <School size={16} className="dropdown-icon" />
-                          <span className={selectedApsSchool ? 'dropdown-value' : 'dropdown-placeholder'}>
-                            {selectedApsSchool || 'Search and select school...'}
-                          </span>
-                          <ChevronDown size={16} className={`dropdown-chevron ${apsSchoolDropdownOpen ? 'rotated' : ''}`} />
-                        </button>
-                        {apsSchoolDropdownOpen && (
-                          <div className="dropdown-panel">
-                            <div className="dropdown-search-box">
-                              <Search size={14} />
-                              <input type="text" placeholder="Type school name..." value={apsSchoolSearch} onChange={e => setApsSchoolSearch(e.target.value)} autoFocus />
-                            </div>
-                            <div className="dropdown-list">
-                              {Array.from(new Set(data.filter(s => s.school === 'APS').map(s => s.schoolName))).filter(Boolean).sort().filter(s => s.toLowerCase().includes(apsSchoolSearch.toLowerCase())).map(school => (
-                                <button key={school} className={`dropdown-item ${selectedApsSchool === school ? 'selected' : ''}`} onClick={() => { setSelectedApsSchool(school); setApsSchoolDropdownOpen(false); setApsSchoolSearch(''); setError(''); setResult(null); }}>
-                                  <span className="dropdown-item-name">{school}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <button className="action-button" onClick={handleDownloadApsCSV} style={{ marginTop: '12px', background: '#10b981', minHeight: 'auto', padding: '8px 16px', fontSize: '13px' }}>
-                        📥 Download Branch CSV
+                  <div className="form-group" style={{ marginBottom: '20px' }}>
+                    <label className="label">Step 1: Select Your APS School</label>
+                    <div className="custom-dropdown aps-school-dropdown">
+                      <button className={`dropdown-trigger ${apsSchoolDropdownOpen ? 'open' : ''}`} onClick={() => setApsSchoolDropdownOpen(!apsSchoolDropdownOpen)} type="button">
+                        <School size={16} className="dropdown-icon" />
+                        <span className={selectedApsSchool ? 'dropdown-value' : 'dropdown-placeholder'}>
+                          {selectedApsSchool || 'Search and select school...'}
+                        </span>
+                        <ChevronDown size={16} className={`dropdown-chevron ${apsSchoolDropdownOpen ? 'rotated' : ''}`} />
                       </button>
+                      {apsSchoolDropdownOpen && (
+                        <div className="dropdown-panel">
+                          <div className="dropdown-search-box">
+                            <Search size={14} />
+                            <input type="text" placeholder="Type school name..." value={apsSchoolSearch} onChange={e => setApsSchoolSearch(e.target.value)} autoFocus />
+                          </div>
+                          <div className="dropdown-list">
+                            {Array.from(new Set(data.filter(s => s.school === 'APS').map(s => s.schoolName))).filter(Boolean).sort().filter(s => s.toLowerCase().includes(apsSchoolSearch.toLowerCase())).map(school => (
+                              <button key={school} className={`dropdown-item ${selectedApsSchool === school ? 'selected' : ''}`} onClick={() => { setSelectedApsSchool(school); setApsSchoolDropdownOpen(false); setApsSchoolSearch(''); setError(''); setResult(null); }}>
+                                <span className="dropdown-item-name">{school}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </>
               )}
 
@@ -967,18 +946,20 @@ function APSApp({ lang, t, toggleLang }) {
                 </>
               ) : (
                 <div className="form-group">
-                  <label className="label">{apsSearchMode === 'branch' ? 'Step 2: Enter Email Number (Admission No.)' : t('unique_id_label')}</label>
-                  <div className="format-box">{apsSearchMode === 'branch' ? 'E.g. 1880, 2144, 3052' : currentConfig.format}</div>
+                  <label className="label">{activeTab === 'aps' ? 'Step 2: Enter Email Number (Admission No.)' : t('unique_id_label')}</label>
+                  <div className="format-box" style={activeTab === 'aps' ? { background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', fontSize: '13px', color: '#64748b', marginBottom: '10px', border: '1px solid #e2e8f0', fontFamily: 'monospace' } : {}}>
+                    {activeTab === 'aps' ? 'Format: [Admission Number] — e.g. 1880, 2144, 3052' : currentConfig.format}
+                  </div>
                   <input
                     type="text"
                     className="input-field"
-                    placeholder={apsSearchMode === 'branch' ? 'E.g. 1880' : currentConfig.placeholder}
+                    placeholder={activeTab === 'aps' ? 'E.g. 1880' : currentConfig.placeholder}
                     value={uid}
                     onChange={e => { setUid(e.target.value); setError(''); setResult(null); }}
                     onKeyDown={e => e.key === 'Enter' && handleRetrieve()}
                   />
                   {error && <div className="error-message" id="uid-error" role="alert"><XCircle size={14} /><span>{error}</span></div>}
-                  {apsSearchMode === 'generic' && (
+                  {activeTab !== 'aps' && (
                     <div className="samples-container">
                       <div className="samples-label">{t('sample_ids_title')}:</div>
                       <div className="samples-list">
@@ -993,7 +974,7 @@ function APSApp({ lang, t, toggleLang }) {
 
               {result && <ResultDisplay result={result} t={t} copiedField={copiedField} copyToClipboard={copyToClipboard} />}
               
-              {activeTab !== 'teachers' && (
+              {activeTab !== 'teachers' && activeTab !== 'aps' && (
                 <div className="samples-box">
                   <h3 className="samples-title">{t('sample_ids_title')}</h3>
                   {currentConfig.samples.map(sampleId => (
@@ -1008,6 +989,11 @@ function APSApp({ lang, t, toggleLang }) {
                 </button>
                 {activeTab === 'teachers' && (
                   <button className="action-button" onClick={handleDownloadTeacherCSV} style={{ flex: 1, minWidth: '150px', background: '#10b981' }}>
+                    <Copy size={18} /><span>Download CSV</span>
+                  </button>
+                )}
+                {activeTab === 'aps' && (
+                  <button className="action-button" onClick={handleDownloadApsCSV} style={{ flex: 1, minWidth: '150px', background: '#10b981' }}>
                     <Copy size={18} /><span>Download CSV</span>
                   </button>
                 )}
