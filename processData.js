@@ -43,8 +43,7 @@ const processAps = () => {
               n: data.DN,
               e: email,
               p: data.PW,
-              s: 'APS',
-              sn: data.SA
+              s: 'APS'
             });
           }
         } catch(err) {}

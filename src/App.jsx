@@ -510,10 +510,10 @@ function APSApp({ lang, t, toggleLang }) {
   const [teachersLoaded, setTeachersLoaded] = useState(false);
   const [namedTeachersLoaded, setNamedTeachersLoaded] = useState(false);
   const [showStickyCta, setShowStickyCta] = useState(false);
-  const [apsSearchMode, setApsSearchMode] = useState('generic');
-  const [selectedApsSchool, setSelectedApsSchool] = useState('');
-  const [apsSchoolSearch, setApsSchoolSearch] = useState('');
-  const [apsSchoolDropdownOpen, setApsSchoolDropdownOpen] = useState(false);
+  const [teacherSearchMode, setTeacherSearchMode] = useState('named');
+  
+  const [selectedTeacherSchool, setSelectedTeacherSchool] = useState('');
+  const [teacherNameSearch, setTeacherNameSearch] = useState('');
 
   const [schoolDropdownOpen, setSchoolDropdownOpen] = useState(false);
   const [schoolSearch, setSchoolSearch] = useState('');
@@ -523,7 +523,6 @@ function APSApp({ lang, t, toggleLang }) {
   useEffect(() => {
     const handler = (e) => { 
       if (!e.target.closest('.school-dropdown')) setSchoolDropdownOpen(false); 
-      if (!e.target.closest('.aps-school-dropdown')) setApsSchoolDropdownOpen(false); 
       if (!e.target.closest('.name-dropdown')) setNameDropdownOpen(false); 
     };
     document.addEventListener('click', handler);
@@ -600,19 +599,6 @@ function APSApp({ lang, t, toggleLang }) {
   const handleRetrieve = () => {
     setError(''); setResult(null);
     if (!uid) { setError(t('enter_uid')); return; }
-    
-    if (activeTab === 'aps' && apsSearchMode === 'branch') {
-      if (!selectedApsSchool) { setError('Please select an APS school'); return; }
-      // uid here is the admission number
-      const found = data.find(s => 
-        s.school === 'APS' && 
-        s.sn === selectedApsSchool && 
-        (s.e.split('@')[0].endsWith(uid) || s.i.endsWith(uid))
-      );
-      if (found) setResult(found); else setError('Student not found with this admission number in selected branch.');
-      return;
-    }
-
     const currentKey = activeTab === 'aps' ? configAPS.key : activeTab === 'atomic' ? 'ATOMIC' : 'KLES';
     const found = data.find(s => s.school === currentKey && s.id === uid);
     if (found) setResult(found); else setError(t('invalid_id'));
@@ -668,32 +654,6 @@ function APSApp({ lang, t, toggleLang }) {
     document.body.removeChild(link);
   };
 
-  const handleDownloadApsCSV = () => {
-    if (!selectedApsSchool) {
-      setError('Please select an APS school first to download the CSV.');
-      return;
-    }
-    const branchStudents = data.filter(s => s.school === 'APS' && s.sn === selectedApsSchool);
-    if (branchStudents.length === 0) {
-      setError('No students found for this school.');
-      return;
-    }
-
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Unique ID,Name,Email,Password,School,Branch\n";
-    branchStudents.forEach(s => {
-      csvContent += `"${s.id}","${s.name}","${s.email}","${s.password}","${s.school}","${s.sn}"\n`;
-    });
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${selectedApsSchool.replace(/\s+/g, '_')}_Students.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const handleSampleClick = (sampleId) => {
     setUid(sampleId); setError(''); setResult(null);
     setTimeout(() => { 
@@ -710,10 +670,10 @@ function APSApp({ lang, t, toggleLang }) {
 
   const TabsHeader = () => (
     <div className="sub-navbar-tabs">
-      <button className={`sub-tab ${activeTab === 'aps' ? 'active' : ''}`} onClick={() => {setActiveTab('aps'); setPage('home'); setUid(''); setApsSearchMode('generic'); setResult(null); setError('');}}>APS Students</button>
+      <button className={`sub-tab ${activeTab === 'aps' ? 'active' : ''}`} onClick={() => {setActiveTab('aps'); setPage('home'); setUid(''); setResult(null); setError('');}}>APS Students</button>
       {/* <button className={`sub-tab ${activeTab === 'atomic' ? 'active' : ''}`} onClick={() => {setActiveTab('atomic'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>Atomic Energy</button> */}
       {/* <button className={`sub-tab ${activeTab === 'kles' ? 'active' : ''}`} onClick={() => {setActiveTab('kles'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>KLES</button> */}
-      <button className={`sub-tab ${activeTab === 'teachers' ? 'active' : ''}`} onClick={() => {setActiveTab('teachers'); setPage('retrieve'); setUid(''); setTeacherSearchMode('named'); setResult(null); setError('');}}>APS Teachers</button>
+      <button className={`sub-tab ${activeTab === 'teachers' ? 'active' : ''}`} onClick={() => {setActiveTab('teachers'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>APS Teachers</button>
     </div>
   );
 
@@ -820,9 +780,11 @@ function APSApp({ lang, t, toggleLang }) {
               <div className="recovery-card-icon"><Key size={20} /></div>
               <div>
                 <div className="recovery-card-title">{title}</div>
-                <div className="recovery-card-subtitle">
-                  {isLoaded ? `${subtitlePrefix} ${currentDataCount.toLocaleString()} ${t('subtitle_students')}` : t('portal_title')}
-                </div>
+                {activeTab !== 'teachers' && (
+                  <div className="recovery-card-subtitle">
+                    {isLoaded ? `${subtitlePrefix} ${currentDataCount.toLocaleString()} ${t('subtitle_students')}` : t('portal_title')}
+                  </div>
+                )}
               </div>
             </div>
             <div className="recovery-card-body">
@@ -830,58 +792,6 @@ function APSApp({ lang, t, toggleLang }) {
                 <div className="info-banner" role="note"><Info className="icon" size={18} /><span>{t('info_banner')}</span></div>
               )}
               
-              {activeTab === 'aps' && (
-                <>
-                  <div className="teacher-mode-tiles" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                    <button 
-                      className={`mode-tile ${apsSearchMode === 'branch' ? 'active' : ''}`}
-                      onClick={() => { setApsSearchMode('branch'); setSelectedApsSchool(''); setUid(''); setResult(null); setError(''); }}
-                      style={{ flex: 1, padding: '15px', borderRadius: '8px', border: apsSearchMode === 'branch' ? '2px solid #3454b4' : '1px solid #ccc', background: apsSearchMode === 'branch' ? '#f0f4ff' : '#fff', color: apsSearchMode === 'branch' ? '#3454b4' : '#666', cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', transition: 'all 0.2s ease' }}>
-                      <span style={{display: 'block', fontSize: '18px', marginBottom: '4px'}}>🏫</span> Branch Search
-                    </button>
-                    <button 
-                      className={`mode-tile ${apsSearchMode === 'generic' ? 'active' : ''}`}
-                      onClick={() => { setApsSearchMode('generic'); setSelectedApsSchool(''); setUid(''); setResult(null); setError(''); }}
-                      style={{ flex: 1, padding: '15px', borderRadius: '8px', border: apsSearchMode === 'generic' ? '2px solid #3454b4' : '1px solid #ccc', background: apsSearchMode === 'generic' ? '#f0f4ff' : '#fff', color: apsSearchMode === 'generic' ? '#3454b4' : '#666', cursor: 'pointer', textAlign: 'center', fontWeight: 'bold', transition: 'all 0.2s ease' }}>
-                      <span style={{display: 'block', fontSize: '18px', marginBottom: '4px'}}>🆔</span> Generic ID Search
-                    </button>
-                  </div>
-
-                  {apsSearchMode === 'branch' && (
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label className="label">Step 1: Select Branch</label>
-                      <div className="custom-dropdown aps-school-dropdown">
-                        <button className={`dropdown-trigger ${apsSchoolDropdownOpen ? 'open' : ''}`} onClick={() => setApsSchoolDropdownOpen(!apsSchoolDropdownOpen)} type="button">
-                          <School size={16} className="dropdown-icon" />
-                          <span className={selectedApsSchool ? 'dropdown-value' : 'dropdown-placeholder'}>
-                            {selectedApsSchool || 'Search and select school...'}
-                          </span>
-                          <ChevronDown size={16} className={`dropdown-chevron ${apsSchoolDropdownOpen ? 'rotated' : ''}`} />
-                        </button>
-                        {apsSchoolDropdownOpen && (
-                          <div className="dropdown-panel">
-                            <div className="dropdown-search-box">
-                              <Search size={14} />
-                              <input type="text" placeholder="Type school name..." value={apsSchoolSearch} onChange={e => setApsSchoolSearch(e.target.value)} autoFocus />
-                            </div>
-                            <div className="dropdown-list">
-                              {Array.from(new Set(data.filter(s => s.school === 'APS').map(s => s.sn))).sort().filter(s => s.toLowerCase().includes(apsSchoolSearch.toLowerCase())).map(school => (
-                                <button key={school} className={`dropdown-item ${selectedApsSchool === school ? 'selected' : ''}`} onClick={() => { setSelectedApsSchool(school); setApsSchoolDropdownOpen(false); setApsSchoolSearch(''); setError(''); setResult(null); }}>
-                                  <span className="dropdown-item-name">{school}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <button className="action-button" onClick={handleDownloadApsCSV} style={{ marginTop: '12px', background: '#10b981', minHeight: 'auto', padding: '8px 16px', fontSize: '13px' }}>
-                        📥 Download Branch CSV
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-
               {activeTab === 'teachers' ? (
                 <>
                   <div className="teacher-mode-tiles" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
@@ -961,27 +871,13 @@ function APSApp({ lang, t, toggleLang }) {
                 </>
               ) : (
                 <div className="form-group">
-                  <label className="label">{apsSearchMode === 'branch' ? 'Step 2: Enter Email Number (Admission No.)' : t('unique_id_label')}</label>
-                  <div className="format-box">{apsSearchMode === 'branch' ? 'E.g. 1880, 2144, 3052' : currentConfig.format}</div>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder={apsSearchMode === 'branch' ? 'E.g. 1880' : currentConfig.placeholder}
-                    value={uid}
+                  <label className="label" htmlFor="uid-input">{t('unique_id_label')}</label>
+                  <div className="format-box" aria-label="ID format">{currentConfig.format}</div>
+                  <input id="uid-input" type="text" className="input-field" placeholder={currentConfig.placeholder} value={uid}
                     onChange={e => { setUid(e.target.value); setError(''); setResult(null); }}
-                    onKeyDown={e => e.key === 'Enter' && handleRetrieve()}
+                    onKeyDown={e => e.key === 'Enter' && handleRetrieve()} autoComplete="off"
                   />
                   {error && <div className="error-message" id="uid-error" role="alert"><XCircle size={14} /><span>{error}</span></div>}
-                  {apsSearchMode === 'generic' && (
-                    <div className="samples-container">
-                      <div className="samples-label">{t('sample_ids_title')}:</div>
-                      <div className="samples-list">
-                        {currentConfig.samples.map(s => (
-                          <button key={s} className="sample-btn" onClick={() => handleSampleClick(s)}>{s}</button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 
