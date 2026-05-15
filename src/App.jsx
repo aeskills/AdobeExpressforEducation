@@ -812,12 +812,12 @@ function APSApp({ lang, t, toggleLang }) {
       <Navbar schoolPath={schoolPath} lang={lang} t={t} toggleLang={toggleLang} />
       <TabsHeader activeTab={activeTab} setActiveTab={setActiveTab} setPage={setPage} setUid={setUid} setResult={setResult} setError={setError} />
       <div className={`retrieve-page ${themeClass}`}>
-        {activeTab === 'aps' && (
-          <button className="back-button" onClick={() => { setPage('home'); setResult(null); setError(''); }}>
+        {(activeTab === 'aps' || activeTab === 'teachers') && (
+          <button className="back-button" onClick={() => { setPage('home'); setResult(null); setError(''); setActiveTab('aps'); }}>
             <ArrowLeft size={18} /> <span>{t('back_home')}</span>
           </button>
         )}
-        <main id="main-content" className="main-content" style={{ marginTop: activeTab !== 'aps' ? '40px' : '0' }}>
+        <main id="main-content" className="main-content" style={{ marginTop: (activeTab !== 'aps' && activeTab !== 'teachers') ? '40px' : '0' }}>
           <div className="recovery-card">
             <div className="recovery-card-header">
               <div className="recovery-card-icon"><Key size={20} /></div>
@@ -838,7 +838,7 @@ function APSApp({ lang, t, toggleLang }) {
               {activeTab === 'aps' && (
                 <>
                   <div className="form-group" style={{ marginBottom: '20px' }}>
-                    <label className="label">Step 1: Select Your APS School</label>
+                    <label className="label">Step 1: Select Branch</label>
                     <div className="custom-dropdown aps-school-dropdown">
                       <button className={`dropdown-trigger ${apsSchoolDropdownOpen ? 'open' : ''}`} onClick={() => setApsSchoolDropdownOpen(!apsSchoolDropdownOpen)} type="button">
                         <School size={16} className="dropdown-icon" />
@@ -946,7 +946,7 @@ function APSApp({ lang, t, toggleLang }) {
                 </>
               ) : (
                 <div className="form-group">
-                  <label className="label">{activeTab === 'aps' ? 'Step 2: Enter Email Number (Admission No.)' : t('unique_id_label')}</label>
+                  <label className="label">{activeTab === 'aps' ? 'Step 2: Enter Your Admission Number' : t('unique_id_label')}</label>
                   <div className="format-box" style={activeTab === 'aps' ? { background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', fontSize: '13px', color: '#64748b', marginBottom: '10px', border: '1px solid #e2e8f0', fontFamily: 'monospace' } : {}}>
                     {activeTab === 'aps' ? 'Format: [Admission Number] — e.g. 1880, 2144, 3052' : currentConfig.format}
                   </div>
