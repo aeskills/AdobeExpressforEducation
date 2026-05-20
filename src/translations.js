@@ -3,14 +3,14 @@ const translations = {
   en: {
     // Navigation
     nav_home: 'Home', nav_about: 'About', nav_contact: 'Contact',
-    nav_help: 'Need Help?', nav_faq: 'FAQ',
+    nav_help: 'Need Help?', nav_faq: 'FAQ', portal_hub: 'Portal Hub',
     lang_toggle: 'हिन्दी', lang_label: 'EN',
 
     // Hero — KGBV
-    kgbv_hero_title: 'KGBV Account Recovery',
+    kgbv_hero_title: 'Adobe Express for Education',
     kgbv_hero_subtitle: 'Empowering Girls Through Education',
     kgbv_tagline: 'Serving 2,23,800+ Girl Students with Excellence and Care',
-    kgbv_feature1: 'Safe & Secure Learning', kgbv_feature2: 'Girl-Centric Education', kgbv_feature3: 'Community Support',
+    kgbv_feature1: 'Activity of the Month', kgbv_feature2: 'CPD Programs for Teachers', kgbv_feature3: 'Community Support',
     kgbv_about_title: 'Empowering Girls Through Education',
     kgbv_about_desc: 'Kasturba Gandhi Balika Vidyalayas (KGBVs) are residential schools dedicated to providing quality education to girls from disadvantaged communities across Uttar Pradesh. We focus on holistic development, academic excellence, and building future leaders.',
     kgbv_services_title: 'Our Core Services',
@@ -38,10 +38,20 @@ const translations = {
     aps_stat_teachers: 'Teaching Staff',
 
     // Hero — SamajKalyan
-    samajkalyan_hero_title: 'Samaj Kalyan Account Recovery',
+    samajkalyan_hero_title: 'Adobe Express for Education',
     samajkalyan_hero_subtitle: 'Community First',
     samajkalyan_tagline: 'Empowering Communities Through Education for 4,32,000+ Students',
-    samajkalyan_feature1: 'Community Care', samajkalyan_feature2: 'Social Responsibility', samajkalyan_feature3: 'Inclusive Development',
+    samajkalyan_feature1: 'Activity of the Month', samajkalyan_feature2: 'CPD Programs for Teachers', samajkalyan_feature3: 'Adobe Express Activities',
+
+    // Hero — KLE
+    kle_hero_title: 'Adobe Express for Education',
+    kle_retrieve_cta: 'Forgot My AE User ID ? Click here',
+    kle_feature1: 'Activity of the Month', kle_feature2: 'CPD Programs for Teachers', kle_feature3: 'Adobe Express Activities',
+
+    // Hero — AECS
+    aecs_hero_title: 'Adobe Express for Education',
+    aecs_retrieve_cta: 'Forgot My AE User ID ? Click here',
+    aecs_feature1: 'Activity of the Month', aecs_feature2: 'CPD Programs for Teachers', aecs_feature3: 'Adobe Express Activities',
 
     // Form & Recovery (generic)
     page_title: 'Recover Your Account',
@@ -50,9 +60,41 @@ const translations = {
     unique_id_label: 'Unique ID',
     retrieve_btn: 'Retrieve Credentials',
     sample_ids_title: 'Sample IDs',
+    step1_branch: 'Step 1: Select Branch',
+    step2_teacher: 'Step 2: Select Teacher Name',
+    step2_student: 'Step 2: Select Student Name',
+    search_branch: 'Search and select branch...',
+    search_teacher: 'Search and select teacher...',
+    search_student: 'Search and select student...',
+    type_branch: 'Type branch name...',
+    type_teacher: 'Type teacher name...',
+    type_student: 'Type student name...',
+    no_teachers: 'No teachers found.',
+    no_students: 'No students found.',
+    download_csv: 'Download CSV',
+    download_student_csv: 'Download Students CSV',
+    download_teacher_csv: 'Download Teachers CSV',
+    copy_all: 'Copy All Credentials',
+    copied_all: 'Copied All Details!',
+    students_title: "Student's User ID Recovery",
+    teachers_title: "Teacher's User ID Recovery",
+    students_tab: 'Students',
+    teachers_tab: 'Teachers',
+
+    // Shared sections
+    shared_about_title: 'About Adobe Express for Education',
+    shared_about_desc: 'Adobe Express for Education helps schools introduce digital creativity and AI skills for students (grades 3-12) while supporting teachers with professional development and Adobe Creative Educator certification, along with free Adobe Express premium access for students, teachers and administrators',
+    shared_download_title: 'Download Adobe Express App',
+    shared_play_desc: 'Download Adobe Express for Android.<br/>Create stunning graphics on the go.',
+    shared_play_btn: 'Get it on Play Store',
+    shared_app_desc: 'Download Adobe Express for iOS.<br/>Bring your ideas to life anywhere.',
+    shared_app_btn: 'Download on App Store',
+    shared_important_desc: 'Create engaging educational posters, assignments, presentations, videos, webpages & social media creatives effortlessly with <a href="https://new.express.adobe.com/" target="_blank" rel="noreferrer" style="color: #1e6ce8ff; font-weight: 700; text-decoration: underline;">Adobe Express</a> — powered by AI tools and ready-to-use academic templates.',
+    shared_tutorial_title: 'Login Tutorial Video:',
+    shared_tutorial_btn: 'Watch Here',
 
     // KGBV-specific
-    retrieve_cta: 'Retrieve Your Credentials',
+    retrieve_cta: 'Forgot My AE User ID ? Click here',
     back_home: 'Back to Home',
     kgbv_retrieve_title: 'Retrieve Your Credentials',
     kgbv_info_banner: 'Select your school and enter your class & roll number to retrieve your credentials',
@@ -77,7 +119,7 @@ const translations = {
     kgbv_gallery_title: 'KGBV Glimpses',
 
     // Samaj Kalyan specific
-    sk_retrieve_title: 'Retrieve Your Credentials',
+    sk_retrieve_title: 'Forgot My AE User ID ? Click here',
     sk_info_banner: 'Select your Ashram school and enter your class & roll number',
     sk_select_school_label: 'Step 1: Select Your Ashram School',
     sk_select_placeholder: 'Search and select your school...',
@@ -130,7 +172,7 @@ const translations = {
   hi: {
     // Navigation
     nav_home: 'होम', nav_about: 'परिचय', nav_contact: 'संपर्क करें',
-    nav_help: 'मदद चाहिए?', nav_faq: 'अक्सर पूछे जाने वाले प्रश्न',
+    nav_help: 'मदद चाहिए?', nav_faq: 'अक्सर पूछे जाने वाले प्रश्न', portal_hub: 'पोर्टल हब',
     lang_toggle: 'English', lang_label: 'हिन्दी',
 
     // Hero — KGBV
@@ -170,6 +212,16 @@ const translations = {
     samajkalyan_tagline: '4,32,000+ छात्रों के लिए शिक्षा के माध्यम से समुदायों को सशक्त बनाना',
     samajkalyan_feature1: 'सामुदायिक देखभाल', samajkalyan_feature2: 'सामाजिक जिम्मेदारी', samajkalyan_feature3: 'समावेशी विकास',
 
+    // Hero — KLE
+    kle_hero_title: 'एडोबी एक्सप्रेस फॉर एजुकेशन',
+    kle_retrieve_cta: 'अपना AE यूजर आईडी भूल गए? यहां क्लिक करें',
+    kle_feature1: 'महीने की गतिविधि', kle_feature2: 'शिक्षकों के लिए सीपीडी कार्यक्रम', kle_feature3: 'एडोबी एक्सप्रेस गतिविधियाँ',
+
+    // Hero — AECS
+    aecs_hero_title: 'एडोबी एक्सप्रेस फॉर एजुकेशन',
+    aecs_retrieve_cta: 'अपना AE यूजर आईडी भूल गए? यहां क्लिक करें',
+    aecs_feature1: 'महीने की गतिविधि', aecs_feature2: 'शिक्षकों के लिए सीपीडी कार्यक्रम', aecs_feature3: 'एडोबी एक्सप्रेस गतिविधियाँ',
+
     // Form & Recovery (generic)
     page_title: 'अपना खाता पुनः प्राप्त करें',
     portal_title: 'खाता पुनर्प्राप्ति पोर्टल',
@@ -177,9 +229,41 @@ const translations = {
     unique_id_label: 'यूनिक आईडी',
     retrieve_btn: 'क्रेडेंशियल प्राप्त करें',
     sample_ids_title: 'नमूना आईडी',
+    step1_branch: 'चरण 1: शाखा का चयन करें',
+    step2_teacher: 'चरण 2: शिक्षक का नाम चुनें',
+    step2_student: 'चरण 2: छात्र का नाम चुनें',
+    search_branch: 'शाखा खोजें और चुनें...',
+    search_teacher: 'शिक्षक खोजें और चुनें...',
+    search_student: 'छात्र खोजें और चुनें...',
+    type_branch: 'शाखा का नाम टाइप करें...',
+    type_teacher: 'शिक्षक का नाम टाइप करें...',
+    type_student: 'छात्र का नाम टाइप करें...',
+    no_teachers: 'कोई शिक्षक नहीं मिला।',
+    no_students: 'कोई छात्र नहीं मिला।',
+    download_csv: 'CSV डाउनलोड करें',
+    download_student_csv: 'छात्र CSV डाउनलोड करें',
+    download_teacher_csv: 'शिक्षक CSV डाउनलोड करें',
+    copy_all: 'सभी क्रेडेंशियल कॉपी करें',
+    copied_all: 'सभी विवरण कॉपी किए गए!',
+    students_title: 'छात्र यूजर आईडी पुनर्प्राप्ति',
+    teachers_title: 'शिक्षक यूजर आईडी पुनर्प्राप्ति',
+    students_tab: 'छात्र',
+    teachers_tab: 'शिक्षक',
+
+    // Shared sections
+    shared_about_title: 'एडोबी एक्सप्रेस फॉर एजुकेशन के बारे में',
+    shared_about_desc: 'शिक्षा के लिए एडोब एक्सप्रेस स्कूलों को छात्रों (ग्रेड 3-12) के लिए डिजिटल रचनात्मकता और एआई कौशल पेश करने में मदद करता है, जबकि पेशेवर विकास और एडोब क्रिएटिव एजुकेटर प्रमाणन के साथ शिक्षकों का समर्थन करता है, साथ ही छात्रों, शिक्षकों और प्रशासकों के लिए मुफ्त एडोब एक्सप्रेस प्रीमियम एक्सेस प्रदान करता है।',
+    shared_download_title: 'एडोबी एक्सप्रेस ऐप डाउनलोड करें',
+    shared_play_desc: 'Android के लिए एडोबी एक्सप्रेस डाउनलोड करें।<br/>चलते-फिरते शानदार ग्राफ़िक्स बनाएँ।',
+    shared_play_btn: 'प्ले स्टोर से प्राप्त करें',
+    shared_app_desc: 'iOS के लिए एडोबी एक्सप्रेस डाउनलोड करें।<br/>कहीं भी अपने विचारों को जीवंत करें।',
+    shared_app_btn: 'ऐप स्टोर से डाउनलोड करें',
+    shared_important_desc: 'एआई टूल और उपयोग के लिए तैयार अकादमिक टेम्प्लेट द्वारा संचालित <a href="https://new.express.adobe.com/" target="_blank" rel="noreferrer" style="color: #1e6ce8ff; font-weight: 700; text-decoration: underline;">एडोबी एक्सप्रेस</a> के साथ आसानी से आकर्षक शैक्षिक पोस्टर, असाइनमेंट, प्रस्तुतियां, वीडियो, वेबपेज और सोशल मीडिया क्रिएटिव बनाएं।',
+    shared_tutorial_title: 'लॉगिन ट्यूटोरियल वीडियो:',
+    shared_tutorial_btn: 'यहाँ देखें',
 
     // KGBV-specific
-    retrieve_cta: 'अपने क्रेडेंशियल प्राप्त करें',
+    retrieve_cta: 'अपना AE यूजर आईडी भूल गए? यहां क्लिक करें',
     back_home: 'होम पर वापस जाएं',
     kgbv_retrieve_title: 'अपने क्रेडेंशियल प्राप्त करें',
     kgbv_info_banner: 'अपने स्कूल का चयन करें और अपनी कक्षा व रोल नंबर दर्ज करें',
@@ -204,7 +288,7 @@ const translations = {
     kgbv_gallery_title: 'KGBV की झलकियाँ',
 
     // Samaj Kalyan specific
-    sk_retrieve_title: 'अपने क्रेडेंशियल प्राप्त करें',
+    sk_retrieve_title: 'अपना AE यूजर आईडी भूल गए? यहां क्लिक करें',
     sk_info_banner: 'अपने आश्रम स्कूल का चयन करें और कक्षा व रोल नंबर दर्ज करें',
     sk_select_school_label: 'चरण 1: अपना आश्रम स्कूल चुनें',
     sk_select_placeholder: 'अपना स्कूल खोजें और चुनें...',

@@ -1,8 +1,44 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Lock, Info, Key, Copy, CheckCircle2, XCircle, AlertCircle, Shield, BookOpen, Users, Globe, Menu, X, ChevronDown, ArrowLeft, Search, School } from 'lucide-react';
+import { Lock, Info, Key, Copy, CheckCircle2, XCircle, AlertCircle, Shield, BookOpen, Users, Globe, Menu, X, ChevronDown, ArrowLeft, Search, School, Sparkles, Download, Smartphone, Laptop, Home } from 'lucide-react';
 import translations from './translations.js';
 
 const BASE = import.meta.env.BASE_URL;
+
+const sharedGalleryImages = [
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06 (1).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06 (2).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06 (3).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06.jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07 (1).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07 (2).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07 (3).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07.jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (1).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (2).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (3).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (4).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (5).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35.jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (1).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (10).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (11).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (12).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (13).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (14).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (2).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (4).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (5).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (6).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (7).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (8).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (9).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36.jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (1).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (2).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (3).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (4).jpeg`,
+  `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37.jpeg`
+];
 
 const SCHOOL_CONFIG = {
   aps: {
@@ -15,12 +51,28 @@ const SCHOOL_CONFIG = {
   },
   kgbv: {
     key: 'KGBV', label: 'KGBV Schools',
-    heroIcon: '🌸', featureIcons: ['🔒', '📖', '🤝'],
+    heroIcon: '🌸', featureIcons: ['🎖️', '📚', '🏆'],
     fallback: [],
   },
   samajkalyan: {
     key: 'ASHRAM', label: 'Samaj Kalyan Schools',
-    heroIcon: '🌿', featureIcons: ['💚', '🌍', '🤝'],
+    heroIcon: '🌿', featureIcons: ['🎖️', '📚', '🏆'],
+    fallback: [],
+  },
+  kle: {
+    key: 'KLES', label: 'Karnatak Lingayat Education',
+    format: 'Enter your Admission Number',
+    placeholder: 'E.G., 025406',
+    samples: ['025406', '012271'],
+    heroIcon: '🎓', featureIcons: ['🎖️', '📚', '🏆'],
+    fallback: [],
+  },
+  aecs: {
+    key: 'ATOMIC', label: 'Atomic Energy Central School',
+    format: 'Enter your Admission Number',
+    placeholder: 'E.G., 3052',
+    samples: ['3052', '3240'],
+    heroIcon: '⚛️', featureIcons: ['🎖️', '📚', '🏆'],
     fallback: [],
   },
 };
@@ -49,12 +101,22 @@ function useLang(schoolPath) {
 
 // --- Shared Components ---
 const NAV_BRANDS = {
-  kgbv: { icon: '🌸', en: 'Kasturba Gandhi Balika Vidyalaya', hi: 'कस्तूरबा गांधी बालिका विद्यालय' },
-  samajkalyan: { icon: '🌿', en: 'Samaj Kalyan Ashram Schools', hi: 'समाज कल्याण आश्रम विद्यालय' },
+  kgbv: { icon: '🌸', en: 'Kasturba Gandhi Balika Vidyalaya X Adobe Express', hi: 'कस्तूरबा गांधी बालिका विद्यालय X एडोबी एक्सप्रेस' },
+  samajkalyan: { icon: '🌿', en: 'Samaj Kalyan Ashram Schools X Adobe Express', hi: 'समाज कल्याण आश्रम विद्यालय X एडोबी एक्सप्रेस' },
   aps: { 
     icon: '🛡️',
     en: 'Army Public School X Adobe Express', 
     hi: 'आर्मी पब्लिक स्कूल X एडोबी एक्सप्रेस' 
+  },
+  kle: { 
+    icon: '🎓',
+    en: 'Karnatak Lingayat Education X Adobe Express', 
+    hi: 'कर्नाटक लिंगायत एजुकेशन X एडोबी एक्सप्रेस' 
+  },
+  aecs: { 
+    icon: '⚛️',
+    en: 'Atomic Energy Central School X Adobe Express', 
+    hi: 'परमाणु ऊर्जा केंद्रीय विद्यालय X एडोबी एक्सप्रेस' 
   },
 };
 
@@ -85,7 +147,7 @@ function Navbar({ schoolPath, lang, t, toggleLang }) {
       <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(false)}>
         <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
           <button className="mobile-menu-close" onClick={() => setMobileOpen(false)} aria-label="Close menu"><X size={20} /></button>
-          <button className="lang-toggle" onClick={() => { toggleLang(); setMobileOpen(false); }} style={{ marginTop: '12px' }}>
+          <button className="lang-toggle" onClick={() => { toggleLang(); setMobileOpen(false); }}>
             <Globe size={15} /> {t('lang_toggle')}
           </button>
         </div>
@@ -192,27 +254,63 @@ function TrendlineSlider({ images, title }) {
 
 // --- Result Display (shared) ---
 function ResultDisplay({ result, t, copiedField, copyToClipboard }) {
+  const initials = result.name ? result.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'EX';
+  
+  const handleCopyAll = () => {
+    const text = `Name: ${result.name}\nEmail/ID: ${result.email}\nPassword: ${result.password}\nBranch/School: ${result.schoolName || ''}`;
+    copyToClipboard(text, 'all');
+  };
+
   return (
-    <div className="result-card" role="region" aria-label="Retrieved credentials">
-      <div className="result-header"><CheckCircle2 size={18} /><span>{t('credentials_retrieved')}</span></div>
-      <div className="student-name-box">
-        <div className="result-label">{t('student_name')}</div>
-        <div className="student-name-value">{result.name}</div>
-        {result.schoolName && <div style={{ marginTop: '6px', fontSize: '12px', color: 'var(--text-muted)' }}>📍 {result.schoolName}</div>}
+    <div className="id-card-container animate-fade-in" role="region" aria-label="Retrieved credentials">
+      <div className="id-card-badge">
+        <CheckCircle2 size={13} />
+        <span>{t('credentials_retrieved')}</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <div className="result-row">
-          <div><div className="result-label">{t('email_address')}</div><div className="result-value" style={{ textTransform: 'lowercase' }}>{result.email}</div></div>
-          <button className="copy-button" onClick={() => copyToClipboard(result.email, 'email')} aria-label={`Copy email`}>
-            {copiedField === 'email' ? <CheckCircle2 size={14} /> : <Copy size={14} />} {copiedField === 'email' ? t('copied') : t('copy')}
-          </button>
+      <div className="id-card">
+        <div className="id-card-pattern"></div>
+        <div className="id-card-main">
+          <div className="id-card-avatar">
+            <span>{initials}</span>
+          </div>
+          <div className="id-card-info">
+            <h3 className="id-card-name">{result.name}</h3>
+            {result.schoolName && (
+              <span className="id-card-branch">
+                <span className="dot"></span> {result.schoolName}
+              </span>
+            )}
+          </div>
         </div>
-        <div className="result-row">
-          <div><div className="result-label">{t('password')}</div><div className="result-value">{result.password}</div></div>
-          <button className="copy-button" onClick={() => copyToClipboard(result.password, 'password')} aria-label={`Copy password`}>
-            {copiedField === 'password' ? <CheckCircle2 size={14} /> : <Copy size={14} />} {copiedField === 'password' ? t('copied') : t('copy')}
-          </button>
+
+        <div className="id-card-details">
+          <div className="detail-item">
+            <div className="detail-header">
+              <span className="detail-title">{t('email_address')}</span>
+              <button className="detail-copy-btn" onClick={() => copyToClipboard(result.email, 'email')} aria-label="Copy email">
+                {copiedField === 'email' ? <CheckCircle2 size={13} className="text-success" /> : <Copy size={13} />}
+                <span>{copiedField === 'email' ? t('copied') : t('copy')}</span>
+              </button>
+            </div>
+            <div className="detail-value lowercase-text">{result.email}</div>
+          </div>
+
+          <div className="detail-item">
+            <div className="detail-header">
+              <span className="detail-title">{t('password')}</span>
+              <button className="detail-copy-btn" onClick={() => copyToClipboard(result.password, 'password')} aria-label="Copy password">
+                {copiedField === 'password' ? <CheckCircle2 size={13} className="text-success" /> : <Copy size={13} />}
+                <span>{copiedField === 'password' ? t('copied') : t('copy')}</span>
+              </button>
+            </div>
+            <div className="detail-value password-text">{result.password}</div>
+          </div>
         </div>
+
+        <button className="copy-all-btn" onClick={handleCopyAll}>
+          {copiedField === 'all' ? <CheckCircle2 size={15} /> : <Copy size={15} />}
+          <span>{copiedField === 'all' ? t('copied_all') : t('copy_all')}</span>
+        </button>
       </div>
     </div>
   );
@@ -317,34 +415,49 @@ function KGBVApp({ lang, t, toggleLang }) {
         <Navbar schoolPath="kgbv" lang={lang} t={t} toggleLang={toggleLang} />
         <HeroSection schoolPath="kgbv" t={t} heroImgSrc={heroImgSrc}>
           <button className="hero-cta-button shine-effect pulse-glow" onClick={() => setPage('retrieve')}>
-            <Key size={20} className="cta-icon" /> {t('retrieve_cta')} →
+            <Key size={20} className="cta-icon" /> {t('retrieve_cta')}
           </button>
         </HeroSection>
         <FeaturesBar schoolPath="kgbv" t={t} />
 
-        <TrendlineSlider images={kgbvTrendlineImages} title={t('kgbv_gallery_title') || 'School Gallery'} />
+        <TrendlineSlider images={kgbvTrendlineImages} />
 
         <section className="about-section" id="main-content">
-          <h2 className="section-title">{t('kgbv_about_title')}</h2>
-          <p className="section-desc">{t('kgbv_about_desc')}</p>
+          <h2 className="section-title">{t('shared_about_title')}</h2>
+          <p className="section-desc">
+            {t('shared_about_desc')}
+          </p>
         </section>
 
-        <section className="services-section">
-          <h2 className="section-title">{t('kgbv_services_title')}</h2>
-          <div className="services-grid">
-            <div className="service-card"><div className="service-icon">📚</div><h3>{t('kgbv_service_edu')}</h3><p>{t('kgbv_service_edu_desc')}</p></div>
-            <div className="service-card"><div className="service-icon">🏠</div><h3>{t('kgbv_service_hostel')}</h3><p>{t('kgbv_service_hostel_desc')}</p></div>
-            <div className="service-card">
-              <div className="service-icon">🔑</div><h3>{t('kgbv_service_recovery')}</h3><p>{t('kgbv_service_recovery_desc')}</p>
+        <section className="app-download-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
+          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '32px' }}>{t('shared_download_title')}</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+            <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" alt="Play Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
+              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Google Play Store</h3>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_play_desc') }}></p>
+              <a href="https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_play_btn')}</a>
             </div>
-            <div className="service-card"><div className="service-icon">🌟</div><h3>{t('kgbv_service_empower')}</h3><p>{t('kgbv_service_empower_desc')}</p></div>
+            <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tinyurl.com/yper8w4n" alt="App Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
+              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Apple App Store</h3>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_app_desc') }}></p>
+              <a href="https://tinyurl.com/yper8w4n" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_app_btn')}</a>
+            </div>
           </div>
         </section>
 
-        <section className="stats-section">
-          <div className="stat-item"><div className="stat-number">{kgbvSchools.length || 746}</div><div className="stat-label">{t('kgbv_schools_count')}</div></div>
-          <div className="stat-item"><div className="stat-number">{isLoaded ? kgbvData.length.toLocaleString() : '2,23,800+'}</div><div className="stat-label">{t('kgbv_students_count')}</div></div>
-          <div className="stat-item"><div className="stat-number">75</div><div className="stat-label">{t('kgbv_stat_districts')}</div></div>
+        <section className="important-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
+          <div style={{ background: '#ffffff', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: '16px', color: '#334155', marginBottom: '32px', lineHeight: '1.6', textAlign: 'center', maxWidth: '680px' }} dangerouslySetInnerHTML={{ __html: t('shared_important_desc') }}></p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '24px' }}>🎥</span>
+                <span style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>{t('shared_tutorial_title')}</span>
+              </div>
+              <a href="https://youtu.be/iuuC3YYBUs8?si=2eb2lmhDBSuxAyRC" target="_blank" rel="noreferrer" style={{ background: '#3454b4', color: 'white', padding: '10px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s', border: 'none' }}>{t('shared_tutorial_btn')}</a>
+            </div>
+          </div>
         </section>
 
         <Footer t={t} />
@@ -520,6 +633,10 @@ function APSApp({ lang, t, toggleLang }) {
   const [apsSchoolSearch, setApsSchoolSearch] = useState('');
   const [apsSchoolDropdownOpen, setApsSchoolDropdownOpen] = useState(false);
   
+  const [selectedStudentName, setSelectedStudentName] = useState('');
+  const [studentNameSearch, setStudentNameSearch] = useState('');
+  const [studentNameDropdownOpen, setStudentNameDropdownOpen] = useState(false);
+
   const [selectedTeacherSchool, setSelectedTeacherSchool] = useState('');
   const [teacherNameSearch, setTeacherNameSearch] = useState('');
 
@@ -533,6 +650,7 @@ function APSApp({ lang, t, toggleLang }) {
       if (!e.target.closest('.school-dropdown')) setSchoolDropdownOpen(false); 
       if (!e.target.closest('.aps-school-dropdown')) setApsSchoolDropdownOpen(false);
       if (!e.target.closest('.name-dropdown')) setNameDropdownOpen(false); 
+      if (!e.target.closest('.student-name-dropdown')) setStudentNameDropdownOpen(false);
     };
     document.addEventListener('click', handler);
     return () => document.removeEventListener('click', handler);
@@ -567,60 +685,30 @@ function APSApp({ lang, t, toggleLang }) {
   }, []);
 
   const heroImgSrc = `${BASE}hero-${schoolPath}.png`;
-  const apsImages = [
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06 (1).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06 (2).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06 (3).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.06.jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07 (1).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07 (2).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07 (3).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.07.jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (1).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (2).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (3).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (4).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35 (5).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.35.jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (1).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (10).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (11).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (12).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (13).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (14).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (2).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (4).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (5).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (6).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (7).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (8).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36 (9).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.36.jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (1).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (2).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (3).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37 (4).jpeg`,
-    `${BASE}Adobe X APS Gallery Images/WhatsApp Image 2026-05-14 at 11.56.37.jpeg`
-  ];
-
   const currentConfig = activeTab === 'aps' ? configAPS : activeTab === 'atomic' ? configAtomic : configKles;
+
+  const apsStudents = data.filter(s => s.school === 'APS' && s.schoolName === selectedApsSchool);
+  const studentNames = Array.from(new Set(apsStudents.map(s => s.name))).filter(Boolean).sort();
+  const filteredStudentNames = studentNames.filter(n => n.toLowerCase().includes(studentNameSearch.toLowerCase()));
 
   const handleRetrieve = () => {
     setError(''); setResult(null);
-    if (!uid) { setError(t('enter_uid')); return; }
     
     if (activeTab === 'aps') {
       if (!selectedApsSchool) { setError('Please select an APS school'); return; }
+      if (!selectedStudentName) { setError('Please select a student name'); return; }
+      
       const found = data.find(s => 
         s.school === 'APS' && 
         s.schoolName === selectedApsSchool && 
-        (s.email.split('@')[0].endsWith(uid) || s.id.endsWith(uid))
+        s.name === selectedStudentName
       );
-      if (found) setResult(found); else setError('Student not found with this admission number in selected branch.');
+      if (found) setResult(found); else setError('Student not found in selected branch.');
       return;
     }
 
     const currentKey = activeTab === 'atomic' ? 'ATOMIC' : 'KLES';
+    if (!uid) { setError(t('enter_uid')); return; }
     const found = data.find(s => s.school === currentKey && s.id === uid);
     if (found) setResult(found); else setError(t('invalid_id'));
   };
@@ -676,11 +764,12 @@ function APSApp({ lang, t, toggleLang }) {
   };
 
   const handleDownloadApsCSV = () => {
-    if (!selectedApsSchool) {
-      setError('Please select an APS school first to download the CSV.');
+    const targetSchool = activeTab === 'teachers' ? selectedTeacherSchool : selectedApsSchool;
+    if (!targetSchool) {
+      setError(activeTab === 'teachers' ? 'Please select a school first to download the Student CSV.' : 'Please select an APS school first to download the CSV.');
       return;
     }
-    const branchStudents = data.filter(s => s.school === 'APS' && s.schoolName === selectedApsSchool);
+    const branchStudents = data.filter(s => s.school === 'APS' && s.schoolName === targetSchool);
     if (branchStudents.length === 0) {
       setError('No students found for this school.');
       return;
@@ -695,7 +784,7 @@ function APSApp({ lang, t, toggleLang }) {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${selectedApsSchool.replace(/\s+/g, '_')}_Students.csv`);
+    link.setAttribute("download", `${targetSchool.replace(/\s+/g, '_')}_Students.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -729,7 +818,7 @@ function APSApp({ lang, t, toggleLang }) {
         </HeroSection>
         <FeaturesBar schoolPath={schoolPath} t={t} />
 
-        <TrendlineSlider images={apsImages} />
+        <TrendlineSlider images={sharedGalleryImages} />
 
         <section className="about-section" id="main-content">
           <h2 className="section-title">{t('aps_about_title')}</h2>
@@ -737,34 +826,32 @@ function APSApp({ lang, t, toggleLang }) {
         </section>
 
         <section className="app-download-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
-          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '32px' }}>Download Adobe Express App</h2>
+          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '32px' }}>{t('shared_download_title')}</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
             <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" alt="Play Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
               <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Google Play Store</h3>
-              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }}>Download Adobe Express for Android.<br/>Create stunning graphics on the go.</p>
-              <a href="https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>Get it on Play Store</a>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_play_desc') }}></p>
+              <a href="https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_play_btn')}</a>
             </div>
             <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tinyurl.com/yper8w4n" alt="App Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
               <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Apple App Store</h3>
-              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }}>Download Adobe Express for iOS.<br/>Bring your ideas to life anywhere.</p>
-              <a href="https://tinyurl.com/yper8w4n" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>Download on App Store</a>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_app_desc') }}></p>
+              <a href="https://tinyurl.com/yper8w4n" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_app_btn')}</a>
             </div>
           </div>
         </section>
 
         <section className="important-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
           <div style={{ background: '#ffffff', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: '16px', color: '#334155', marginBottom: '32px', lineHeight: '1.6', textAlign: 'center', maxWidth: '680px' }}>
-              Create engaging educational posters, assignments, presentations, videos, webpages & social media creatives effortlessly with <a href="https://new.express.adobe.com/" target="_blank" rel="noreferrer" style={{ color: '#1e6ce8ff', fontWeight: '700', textDecoration: 'underline' }}>Adobe Express</a> — powered by AI tools and ready-to-use academic templates.
-            </p>
+            <p style={{ fontSize: '16px', color: '#334155', marginBottom: '32px', lineHeight: '1.6', textAlign: 'center', maxWidth: '680px' }} dangerouslySetInnerHTML={{ __html: t('shared_important_desc') }}></p>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '24px' }}>🎥</span>
-                <span style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>Login Tutorial Video:</span>
+                <span style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>{t('shared_tutorial_title')}</span>
               </div>
-              <a href="https://youtu.be/iuuC3YYBUs8?si=2eb2lmhDBSuxAyRC" target="_blank" rel="noreferrer" style={{ background: '#3454b4', color: 'white', padding: '10px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s', border: 'none' }}>Watch Here</a>
+              <a href="https://youtu.be/iuuC3YYBUs8?si=2eb2lmhDBSuxAyRC" target="_blank" rel="noreferrer" style={{ background: '#3454b4', color: 'white', padding: '10px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s', border: 'none' }}>{t('shared_tutorial_btn')}</a>
             </div>
           </div>
         </section>
@@ -851,7 +938,7 @@ function APSApp({ lang, t, toggleLang }) {
                           </div>
                           <div className="dropdown-list">
                             {Array.from(new Set(data.filter(s => s.school === 'APS').map(s => s.schoolName))).filter(Boolean).sort().filter(s => s.toLowerCase().includes(apsSchoolSearch.toLowerCase())).map(school => (
-                              <button key={school} className={`dropdown-item ${selectedApsSchool === school ? 'selected' : ''}`} onClick={() => { setSelectedApsSchool(school); setApsSchoolDropdownOpen(false); setApsSchoolSearch(''); setError(''); setResult(null); }}>
+                              <button key={school} className={`dropdown-item ${selectedApsSchool === school ? 'selected' : ''}`} onClick={() => { setSelectedApsSchool(school); setSelectedStudentName(''); setStudentNameSearch(''); setStudentNameDropdownOpen(false); setApsSchoolDropdownOpen(false); setApsSchoolSearch(''); setError(''); setResult(null); }}>
                                 <span className="dropdown-item-name">{school}</span>
                               </button>
                             ))}
@@ -942,28 +1029,58 @@ function APSApp({ lang, t, toggleLang }) {
                 </>
               ) : (
                 <div className="form-group">
-                  <label className="label">{activeTab === 'aps' ? 'Step 2: Enter Your Admission Number' : t('unique_id_label')}</label>
-                  <div className="format-box" style={activeTab === 'aps' ? { background: '#f8fafc', padding: '12px 16px', borderRadius: '8px', fontSize: '13px', color: '#64748b', marginBottom: '10px', border: '1px solid #e2e8f0', fontFamily: 'monospace' } : {}}>
-                    {activeTab === 'aps' ? 'Format: [Admission Number] — e.g. 1880, 2144, 3052' : currentConfig.format}
-                  </div>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder={activeTab === 'aps' ? 'E.g. 1880' : currentConfig.placeholder}
-                    value={uid}
-                    onChange={e => { setUid(e.target.value); setError(''); setResult(null); }}
-                    onKeyDown={e => e.key === 'Enter' && handleRetrieve()}
-                  />
-                  {error && <div className="error-message" id="uid-error" role="alert"><XCircle size={14} /><span>{error}</span></div>}
-                  {activeTab !== 'aps' && (
-                    <div className="samples-container">
-                      <div className="samples-label">{t('sample_ids_title')}:</div>
-                      <div className="samples-list">
-                        {currentConfig.samples.map(s => (
-                          <button key={s} className="sample-btn" onClick={() => handleSampleClick(s)}>{s}</button>
-                        ))}
+                  {activeTab === 'aps' ? (
+                    <>
+                      <label className="label">Step 2: Select Student Name</label>
+                      <div className={`custom-dropdown student-name-dropdown ${!selectedApsSchool ? 'disabled' : ''}`} style={!selectedApsSchool ? {opacity: 0.5, pointerEvents: 'none'} : {}}>
+                        <button className={`dropdown-trigger ${studentNameDropdownOpen ? 'open' : ''}`} onClick={() => setStudentNameDropdownOpen(!studentNameDropdownOpen)} type="button">
+                          <Users size={16} className="dropdown-icon" />
+                          <span className={selectedStudentName ? 'dropdown-value' : 'dropdown-placeholder'}>
+                            {selectedStudentName || 'Search and select student...'}
+                          </span>
+                          <ChevronDown size={16} className={`dropdown-chevron ${studentNameDropdownOpen ? 'rotated' : ''}`} />
+                        </button>
+                        {studentNameDropdownOpen && (
+                          <div className="dropdown-panel">
+                            <div className="dropdown-search-box">
+                              <Search size={14} />
+                              <input type="text" placeholder="Type student name..." value={studentNameSearch} onChange={e => setStudentNameSearch(e.target.value)} autoFocus />
+                            </div>
+                            <div className="dropdown-list">
+                              {filteredStudentNames.length === 0 && <div className="dropdown-empty">No students found</div>}
+                              {filteredStudentNames.map(name => (
+                                <button key={name} className={`dropdown-item ${selectedStudentName === name ? 'selected' : ''}`}
+                                  onClick={() => { setSelectedStudentName(name); setStudentNameDropdownOpen(false); setStudentNameSearch(''); setError(''); setResult(null); }}>
+                                  <span className="dropdown-item-name">{name}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
+                      {error && <div className="error-message" role="alert"><XCircle size={14} /><span>{error}</span></div>}
+                    </>
+                  ) : (
+                    <>
+                      <label className="label">{t('unique_id_label')}</label>
+                      <input
+                        type="text"
+                        className="input-field"
+                        placeholder={currentConfig.placeholder}
+                        value={uid}
+                        onChange={e => { setUid(e.target.value); setError(''); setResult(null); }}
+                        onKeyDown={e => e.key === 'Enter' && handleRetrieve()}
+                      />
+                      {error && <div className="error-message" id="uid-error" role="alert"><XCircle size={14} /><span>{error}</span></div>}
+                      <div className="samples-container">
+                        <div className="samples-label">{t('sample_ids_title')}:</div>
+                        <div className="samples-list">
+                          {currentConfig.samples.map(s => (
+                            <button key={s} className="sample-btn" onClick={() => handleSampleClick(s)}>{s}</button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               )}
@@ -984,14 +1101,14 @@ function APSApp({ lang, t, toggleLang }) {
                   <Key size={18} /><span>{t('retrieve_btn')}</span>
                 </button>
                 {activeTab === 'teachers' && (
-                  <button className="action-button" onClick={handleDownloadTeacherCSV} style={{ flex: 1, minWidth: '150px', background: '#10b981' }}>
-                    <Copy size={18} /><span>Download CSV</span>
-                  </button>
-                )}
-                {activeTab === 'aps' && (
-                  <button className="action-button" onClick={handleDownloadApsCSV} style={{ flex: 1, minWidth: '150px', background: '#10b981' }}>
-                    <Copy size={18} /><span>Download CSV</span>
-                  </button>
+                  <>
+                    <button className="action-button" onClick={handleDownloadTeacherCSV} style={{ flex: 1, minWidth: '150px', background: '#10b981' }}>
+                      <Copy size={18} /><span>{t('download_teacher_csv')}</span>
+                    </button>
+                    <button className="action-button" onClick={handleDownloadApsCSV} style={{ flex: 1, minWidth: '150px', background: '#059669' }}>
+                      <Copy size={18} /><span>{t('download_student_csv')}</span>
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -1100,34 +1217,49 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
         <Navbar schoolPath="samajkalyan" lang={lang} t={t} toggleLang={toggleLang} />
         <HeroSection schoolPath="samajkalyan" t={t} heroImgSrc={heroImgSrc}>
           <button className="hero-cta-button shine-effect pulse-glow" onClick={() => setPage('retrieve')}>
-            <Key size={20} className="cta-icon" /> {t('retrieve_cta')} →
+            <Key size={20} className="cta-icon" /> {t('retrieve_cta')}
           </button>
         </HeroSection>
         <FeaturesBar schoolPath="samajkalyan" t={t} />
 
-        <TrendlineSlider images={skTrendlineImages} title={t('sk_gallery_title') || 'Ashram Gallery'} />
+        <TrendlineSlider images={skTrendlineImages} />
 
         <section className="about-section" id="main-content">
-          <h2 className="section-title">{t('sk_about_title')}</h2>
-          <p className="section-desc">{t('sk_about_desc')}</p>
+          <h2 className="section-title">{t('shared_about_title')}</h2>
+          <p className="section-desc">
+            {t('shared_about_desc')}
+          </p>
         </section>
 
-        <section className="services-section">
-          <h2 className="section-title">{t('sk_services_title')}</h2>
-          <div className="services-grid">
-            <div className="service-card"><div className="service-icon">📚</div><h3>{t('sk_service_edu')}</h3><p>{t('sk_service_edu_desc')}</p></div>
-            <div className="service-card"><div className="service-icon">🤝</div><h3>{t('sk_service_community')}</h3><p>{t('sk_service_community_desc')}</p></div>
-            <div className="service-card">
-              <div className="service-icon">🔑</div><h3>{t('sk_service_recovery')}</h3><p>{t('sk_service_recovery_desc')}</p>
+        <section className="app-download-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
+          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '32px' }}>{t('shared_download_title')}</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+            <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" alt="Play Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
+              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Google Play Store</h3>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_play_desc') }}></p>
+              <a href="https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_play_btn')}</a>
             </div>
-            <div className="service-card"><div className="service-icon">🌱</div><h3>{t('sk_service_welfare')}</h3><p>{t('sk_service_welfare_desc')}</p></div>
+            <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tinyurl.com/yper8w4n" alt="App Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
+              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Apple App Store</h3>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_app_desc') }}></p>
+              <a href="https://tinyurl.com/yper8w4n" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_app_btn')}</a>
+            </div>
           </div>
         </section>
 
-        <section className="stats-section">
-          <div className="stat-item"><div className="stat-number">{ashramSchools.length || 119}</div><div className="stat-label">{t('sk_schools_count')}</div></div>
-          <div className="stat-item"><div className="stat-number">{isLoaded ? ashramData.length.toLocaleString() : '66,640+'}</div><div className="stat-label">{t('sk_students_count')}</div></div>
-          <div className="stat-item"><div className="stat-number">100%</div><div className="stat-label">{t('sk_stat_inclusive')}</div></div>
+        <section className="important-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
+          <div style={{ background: '#ffffff', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: '16px', color: '#334155', marginBottom: '32px', lineHeight: '1.6', textAlign: 'center', maxWidth: '680px' }} dangerouslySetInnerHTML={{ __html: t('shared_important_desc') }}></p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '24px' }}>🎥</span>
+                <span style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>{t('shared_tutorial_title')}</span>
+              </div>
+              <a href="https://youtu.be/iuuC3YYBUs8?si=2eb2lmhDBSuxAyRC" target="_blank" rel="noreferrer" style={{ background: '#3454b4', color: 'white', padding: '10px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s', border: 'none' }}>{t('shared_tutorial_btn')}</a>
+            </div>
+          </div>
         </section>
 
         <Footer t={t} />
@@ -1218,17 +1350,588 @@ function SamajKalyanApp({ lang, t, toggleLang }) {
   );
 }
 
+const GenericTabsHeader = ({ activeTab, setActiveTab, setPage, setUid, setResult, setError, schoolName, t }) => (
+  <div className="sub-navbar-tabs">
+    <button className={`sub-tab ${activeTab === 'students' ? 'active' : ''}`} onClick={() => {setActiveTab('students'); setPage('home'); setUid(''); setResult(null); setError('');}}>{schoolName} {t('students_tab')}</button>
+    <button className={`sub-tab ${activeTab === 'teachers' ? 'active' : ''}`} onClick={() => {setActiveTab('teachers'); setPage('retrieve'); setUid(''); setResult(null); setError('');}}>{schoolName} {t('teachers_tab')}</button>
+  </div>
+);
+
+// --- Generic Branch App ---
+function GenericBranchApp({ schoolPath, lang, t, toggleLang }) {
+  const config = SCHOOL_CONFIG[schoolPath];
+  const [activeTab, setActiveTab] = useState('students');
+  const [page, setPage] = useState('home');
+  const [uid, setUid] = useState('');
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+  const [copiedField, setCopiedField] = useState('');
+  
+  const [data, setData] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [teacherData, setTeacherData] = useState([]);
+  const [isTeacherLoaded, setIsTeacherLoaded] = useState(false);
+
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [branchSearch, setBranchSearch] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const [selectedStudentName, setSelectedStudentName] = useState('');
+  const [studentNameSearch, setStudentNameSearch] = useState('');
+  const [studentNameDropdownOpen, setStudentNameDropdownOpen] = useState(false);
+
+  const [selectedTeacherBranch, setSelectedTeacherBranch] = useState('');
+  const [teacherNameSearch, setTeacherNameSearch] = useState('');
+  const [selectedTeacherName, setSelectedTeacherName] = useState('');
+  const [teacherNameDropdownOpen, setTeacherNameDropdownOpen] = useState(false);
+
+  const [showStickyCta, setShowStickyCta] = useState(false);
+
+  useEffect(() => {
+    // Reset all lookup states when active tab changes
+    setSelectedBranch('');
+    setBranchSearch('');
+    setDropdownOpen(false);
+    setSelectedStudentName('');
+    setStudentNameSearch('');
+    setStudentNameDropdownOpen(false);
+    setSelectedTeacherBranch('');
+    setTeacherNameSearch('');
+    setSelectedTeacherName('');
+    setTeacherNameDropdownOpen(false);
+    setError('');
+    setResult(null);
+  }, [activeTab]);
+
+  useEffect(() => {
+    const handler = () => setShowStickyCta(window.scrollY > 300);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  useEffect(() => {
+    fetch(BASE + 'students.json', { headers: { 'Bypass-Tunnel-Reminder': 'true' } })
+      .then(res => res.json())
+      .then(json => {
+        const d = json.filter(s => s.s === config.key).map(s => ({
+          id: s.i, name: s.n, email: s.e, password: s.p, school: s.s, schoolName: s.sn || ''
+        }));
+        setData(d); setIsLoaded(true);
+      })
+      .catch(() => console.log('Using fallback data.'));
+      
+    fetch(BASE + `teachers_${schoolPath}.json`, { headers: { 'Bypass-Tunnel-Reminder': 'true' } })
+      .then(res => res.json())
+      .then(json => {
+        setTeacherData(json);
+        setIsTeacherLoaded(true);
+      })
+      .catch(() => console.log('Using fallback teacher data.'));
+  }, [config.key, schoolPath]);
+
+  const branches = Array.from(new Set(data.map(s => s.schoolName))).filter(Boolean).sort();
+  const filteredBranches = branches.filter(b => b.toLowerCase().includes(branchSearch.toLowerCase()));
+
+  const branchStudentNames = Array.from(new Set(data.filter(s => s.schoolName === selectedBranch).map(s => s.name))).filter(Boolean).sort();
+  const filteredStudentNames = branchStudentNames.filter(n => n.toLowerCase().includes(studentNameSearch.toLowerCase()));
+
+  const teacherBranches = Array.from(new Set(teacherData.map(t => t.sa))).filter(Boolean).sort();
+  const filteredTeacherBranches = teacherBranches.filter(b => b.toLowerCase().includes(branchSearch.toLowerCase()));
+
+  const branchTeachers = teacherData.filter(t => t.sa === selectedTeacherBranch).map(t => t.dn).filter(Boolean).sort();
+  const filteredTeacherNames = branchTeachers.filter(n => n.toLowerCase().includes(teacherNameSearch.toLowerCase()));
+
+  const handleRetrieve = () => {
+    setError(''); setResult(null);
+    if (!selectedBranch) { setError('Please select a branch'); return; }
+    if (!selectedStudentName) { setError('Please select a student name'); return; }
+    
+    const found = data.find(s => s.schoolName === selectedBranch && s.name === selectedStudentName);
+    if (found) setResult(found); else setError('Student not found in selected branch.');
+  };
+
+  const handleRetrieveTeacher = () => {
+    setError(''); setResult(null);
+    if (!selectedTeacherBranch) { setError('Please select a branch'); return; }
+    if (!selectedTeacherName) { setError('Please select a teacher name'); return; }
+    
+    const found = teacherData.find(t => 
+      t.sa === selectedTeacherBranch && 
+      t.dn === selectedTeacherName
+    );
+    
+    if (found) {
+      setResult({
+        name: found.dn,
+        schoolName: found.sa,
+        email: found.id,
+        password: found.pw
+      });
+    } else {
+      setError('Teacher not found. Please check the details.');
+    }
+  };
+
+  const handleDownloadStudentCSVFromTeacher = () => {
+    if (!selectedTeacherBranch) { setError('Please select a branch first to download the Student CSV.'); return; }
+    const branchStudents = data.filter(s => s.schoolName === selectedTeacherBranch);
+    if (branchStudents.length === 0) { setError('No students found for this branch.'); return; }
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Unique ID,Name,Email,Password,School,Branch\n";
+    branchStudents.forEach(s => {
+      csvContent += `"${s.id}","${s.name}","${s.email}","${s.password}","${s.school}","${s.schoolName}"\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${selectedTeacherBranch.replace(/\s+/g, '_')}_Students.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadTeacherCSV = () => {
+    if (!selectedTeacherBranch) { setError('Please select a branch first to download the CSV.'); return; }
+    const branchTeachers = teacherData.filter(t => t.sa === selectedTeacherBranch);
+    if (branchTeachers.length === 0) { setError('No teachers found for this branch.'); return; }
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Branch,Name,ID,Password\n";
+    branchTeachers.forEach(t => {
+      csvContent += `"${t.sa}","${t.dn}","${t.id}","${t.pw}"\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${selectedTeacherBranch.replace(/\s+/g, '_')}_Teachers.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const copyToClipboard = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field); setTimeout(() => setCopiedField(''), 2000);
+  };
+
+  const heroImgSrc = `${BASE}hero-${schoolPath}.png`;
+  const schoolLabel = schoolPath === 'kle' ? 'KLE' : 'AECS';
+  
+  if (page === 'home' && activeTab === 'students') {
+    return (
+      <>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
+        <Navbar schoolPath={schoolPath} lang={lang} t={t} toggleLang={toggleLang} />
+        <GenericTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} setPage={setPage} setUid={setUid} setResult={setResult} setError={setError} schoolName={schoolLabel} t={t} />
+        <HeroSection schoolPath={schoolPath} t={t} heroImgSrc={heroImgSrc}>
+          <button className="hero-cta-button shine-effect pulse-glow" onClick={() => setPage('retrieve')}>
+            <Key size={20} className="cta-icon" /> {t(`${schoolPath}_retrieve_cta`) || t('retrieve_cta')}
+          </button>
+        </HeroSection>
+        <FeaturesBar schoolPath={schoolPath} t={t} />
+        
+        <TrendlineSlider images={sharedGalleryImages} />
+
+        <section className="about-section" id="main-content">
+          <h2 className="section-title">{t('shared_about_title')}</h2>
+          <p className="section-desc">
+            {t('shared_about_desc')}
+          </p>
+        </section>
+
+        <section className="app-download-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
+          <h2 className="section-title" style={{ textAlign: 'center', marginBottom: '32px' }}>{t('shared_download_title')}</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+            <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" alt="Play Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
+              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Google Play Store</h3>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_play_desc') }}></p>
+              <a href="https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_play_btn')}</a>
+            </div>
+            <div className="download-card" style={{ background: 'var(--bg-card)', padding: '32px 24px', borderRadius: '16px', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tinyurl.com/yper8w4n" alt="App Store QR" style={{ width: '130px', height: '130px', marginBottom: '20px', borderRadius: '8px' }} />
+              <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px', color: 'var(--text-dark)', fontFamily: "'Poppins', sans-serif" }}>Apple App Store</h3>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: '1.6' }} dangerouslySetInnerHTML={{ __html: t('shared_app_desc') }}></p>
+              <a href="https://tinyurl.com/yper8w4n" target="_blank" rel="noreferrer" className="action-button" style={{ width: 'auto', padding: '12px 28px', minHeight: 'auto', fontSize: '14px', textDecoration: 'none' }}>{t('shared_app_btn')}</a>
+            </div>
+          </div>
+        </section>
+
+        <section className="important-section" style={{ maxWidth: '800px', margin: '0 auto 60px', padding: '0 24px' }}>
+          <div style={{ background: '#ffffff', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: '16px', color: '#334155', marginBottom: '32px', lineHeight: '1.6', textAlign: 'center', maxWidth: '680px' }} dangerouslySetInnerHTML={{ __html: t('shared_important_desc') }}></p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '24px' }}>🎥</span>
+                <span style={{ fontSize: '18px', fontWeight: '600', color: '#1e293b' }}>{t('shared_tutorial_title')}</span>
+              </div>
+              <a href="https://youtu.be/iuuC3YYBUs8?si=2eb2lmhDBSuxAyRC" target="_blank" rel="noreferrer" style={{ background: '#3454b4', color: 'white', padding: '10px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: '600', textDecoration: 'none', transition: 'background 0.2s', border: 'none' }}>{t('shared_tutorial_btn')}</a>
+            </div>
+          </div>
+        </section>
+
+        <Footer t={t} />
+        <button className={`floating-cta-button shine-effect pulse-glow ${showStickyCta ? 'visible' : ''}`} onClick={() => setPage('retrieve')}>
+          <Key size={22} className="cta-icon" /> <span className="floating-text">{t(`${schoolPath}_retrieve_cta`) || t('retrieve_cta')}</span>
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Navbar schoolPath={schoolPath} lang={lang} t={t} toggleLang={toggleLang} />
+      <GenericTabsHeader activeTab={activeTab} setActiveTab={setActiveTab} setPage={setPage} setUid={setUid} setResult={setResult} setError={setError} schoolName={schoolLabel} t={t} />
+      <div className={`retrieve-page theme-${schoolPath}`}>
+        <button className="back-button" onClick={() => { setActiveTab('students'); setPage('home'); setResult(null); setError(''); }}>
+          <ArrowLeft size={18} /> <span>{t('back_home')}</span>
+        </button>
+        <main id="main-content" className="main-content" style={{ marginTop: activeTab === 'teachers' ? '40px' : '0' }}>
+          <div className="recovery-card">
+            <div className="recovery-card-header">
+              <div className="recovery-card-icon"><Key size={20} /></div>
+              <div>
+                <div className="recovery-card-title">{activeTab === 'students' ? t('students_title') : t('teachers_title')}</div>
+                <div className="recovery-card-subtitle">
+                  {activeTab === 'students' 
+                    ? (isLoaded ? `Instantly retrieve credentials for ${data.length.toLocaleString()} ${t('subtitle_students')}` : t('loading_data'))
+                    : (isTeacherLoaded ? `Instantly retrieve credentials for ${teacherData.length.toLocaleString()} Teachers` : t('loading_data'))
+                  }
+                </div>
+              </div>
+            </div>
+            
+            {activeTab === 'students' ? (
+              <div className="recovery-card-body">
+                <div className="form-group" style={{ marginBottom: '20px' }}>
+                  <label className="label">{t('step1_branch')}</label>
+                  <div className="custom-dropdown school-dropdown">
+                    <button className={`dropdown-trigger ${dropdownOpen ? 'open' : ''}`} onClick={() => setDropdownOpen(!dropdownOpen)} type="button">
+                      <School size={16} className="dropdown-icon" />
+                      <span className={selectedBranch ? 'dropdown-value' : 'dropdown-placeholder'}>
+                        {selectedBranch || t('search_branch')}
+                      </span>
+                      <ChevronDown size={16} className={`dropdown-chevron ${dropdownOpen ? 'rotated' : ''}`} />
+                    </button>
+                    {dropdownOpen && (
+                      <div className="dropdown-panel">
+                        <div className="dropdown-search-box">
+                          <Search size={14} />
+                          <input type="text" placeholder={t('type_branch')} value={branchSearch} onChange={e => setBranchSearch(e.target.value)} autoFocus />
+                        </div>
+                        <div className="dropdown-list">
+                          {filteredBranches.map(b => (
+                            <button key={b} className={`dropdown-item ${selectedBranch === b ? 'selected' : ''}`} onClick={() => { setSelectedBranch(b); setDropdownOpen(false); setBranchSearch(''); setSelectedStudentName(''); setStudentNameSearch(''); setError(''); setResult(null); }}>
+                              <span className="dropdown-item-name">{b}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="label">{t('step2_student')}</label>
+                  <div className="custom-dropdown school-dropdown">
+                    <button className={`dropdown-trigger ${studentNameDropdownOpen ? 'open' : ''}`} onClick={() => setStudentNameDropdownOpen(!studentNameDropdownOpen)} type="button">
+                      <School size={16} className="dropdown-icon" />
+                      <span className={selectedStudentName ? 'dropdown-value' : 'dropdown-placeholder'}>
+                        {selectedStudentName || t('search_student')}
+                      </span>
+                      <ChevronDown size={16} className={`dropdown-chevron ${studentNameDropdownOpen ? 'rotated' : ''}`} />
+                    </button>
+                    {studentNameDropdownOpen && (
+                      <div className="dropdown-panel">
+                        <div className="dropdown-search-box">
+                          <Search size={14} />
+                          <input type="text" placeholder={t('type_student')} value={studentNameSearch} onChange={e => setStudentNameSearch(e.target.value)} autoFocus />
+                        </div>
+                        <div className="dropdown-list">
+                          {filteredStudentNames.length === 0 && <div className="dropdown-item" style={{ color: '#64748b', cursor: 'default' }}>{t('no_students')}</div>}
+                          {filteredStudentNames.map(name => (
+                            <button key={name} className={`dropdown-item ${selectedStudentName === name ? 'selected' : ''}`} onClick={() => { setSelectedStudentName(name); setStudentNameDropdownOpen(false); setStudentNameSearch(''); setError(''); setResult(null); }}>
+                              <span className="dropdown-item-name">{name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {error && <div className="error-message" role="alert"><XCircle size={14} /><span>{error}</span></div>}
+                </div>
+
+                {result && <ResultDisplay result={result} t={t} copiedField={copiedField} copyToClipboard={copyToClipboard} />}
+
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <button className="action-button" onClick={handleRetrieve} style={{ flex: 1, minWidth: '150px' }}>
+                    <Key size={18} /><span>{t('retrieve_btn')}</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="recovery-card-body">
+                <div className="form-group" style={{ marginBottom: '20px' }}>
+                  <label className="label">{t('step1_branch')}</label>
+                  <div className="custom-dropdown school-dropdown">
+                    <button className={`dropdown-trigger ${dropdownOpen ? 'open' : ''}`} onClick={() => setDropdownOpen(!dropdownOpen)} type="button">
+                      <School size={16} className="dropdown-icon" />
+                      <span className={selectedTeacherBranch ? 'dropdown-value' : 'dropdown-placeholder'}>
+                        {selectedTeacherBranch || t('search_branch')}
+                      </span>
+                      <ChevronDown size={16} className={`dropdown-chevron ${dropdownOpen ? 'rotated' : ''}`} />
+                    </button>
+                    {dropdownOpen && (
+                      <div className="dropdown-panel">
+                        <div className="dropdown-search-box">
+                          <Search size={14} />
+                          <input type="text" placeholder={t('type_branch')} value={branchSearch} onChange={e => setBranchSearch(e.target.value)} autoFocus />
+                        </div>
+                        <div className="dropdown-list">
+                          {filteredTeacherBranches.map(b => (
+                            <button key={b} className={`dropdown-item ${selectedTeacherBranch === b ? 'selected' : ''}`} onClick={() => { setSelectedTeacherBranch(b); setDropdownOpen(false); setBranchSearch(''); setSelectedTeacherName(''); setTeacherNameSearch(''); setError(''); setResult(null); }}>
+                              <span className="dropdown-item-name">{b}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="label">{t('step2_teacher')}</label>
+                  <div className="custom-dropdown school-dropdown">
+                    <button className={`dropdown-trigger ${teacherNameDropdownOpen ? 'open' : ''}`} onClick={() => setTeacherNameDropdownOpen(!teacherNameDropdownOpen)} type="button">
+                      <School size={16} className="dropdown-icon" />
+                      <span className={selectedTeacherName ? 'dropdown-value' : 'dropdown-placeholder'}>
+                        {selectedTeacherName || t('search_teacher')}
+                      </span>
+                      <ChevronDown size={16} className={`dropdown-chevron ${teacherNameDropdownOpen ? 'rotated' : ''}`} />
+                    </button>
+                    {teacherNameDropdownOpen && (
+                      <div className="dropdown-panel">
+                        <div className="dropdown-search-box">
+                          <Search size={14} />
+                          <input type="text" placeholder={t('type_teacher')} value={teacherNameSearch} onChange={e => setTeacherNameSearch(e.target.value)} autoFocus />
+                        </div>
+                        <div className="dropdown-list">
+                          {filteredTeacherNames.length === 0 && <div className="dropdown-item" style={{ color: '#64748b', cursor: 'default' }}>{t('no_teachers')}</div>}
+                          {filteredTeacherNames.map(name => (
+                            <button key={name} className={`dropdown-item ${selectedTeacherName === name ? 'selected' : ''}`} onClick={() => { setSelectedTeacherName(name); setTeacherNameDropdownOpen(false); setTeacherNameSearch(''); setError(''); setResult(null); }}>
+                              <span className="dropdown-item-name">{name}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {error && <div className="error-message" role="alert"><XCircle size={14} /><span>{error}</span></div>}
+                </div>
+
+                {result && <ResultDisplay result={result} t={t} copiedField={copiedField} copyToClipboard={copyToClipboard} />}
+
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <button className="action-button" onClick={handleRetrieveTeacher} style={{ flex: 1, minWidth: '150px' }}>
+                    <Key size={18} /><span>{t('retrieve_btn')}</span>
+                  </button>
+                  <button className="action-button" onClick={handleDownloadTeacherCSV} style={{ flex: 1, minWidth: '150px', background: '#10b981' }}>
+                    <Copy size={18} /><span>{t('download_teacher_csv')}</span>
+                  </button>
+                  <button className="action-button" onClick={handleDownloadStudentCSVFromTeacher} style={{ flex: 1, minWidth: '150px', background: '#059669' }}>
+                    <Copy size={18} /><span>{t('download_student_csv')}</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+      <Footer t={t} />
+    </>
+  );
+}
+
 // --- Landing Page ---
 function LandingPage({ t }) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const portals = [
+    {
+      path: 'kgbv',
+      name: '🌸 KGBV Schools',
+      sub: 'Kasturba Gandhi Balika Vidyalaya',
+      desc: 'Residential girls schools across Uttar Pradesh empowering young women in digital literacy and creative arts.',
+      accentClass: 'kgbv'
+    },
+    {
+      path: 'samajkalyan',
+      name: '🌿 Samaj Kalyan',
+      sub: 'Social Welfare Ashram Schools',
+      desc: 'Residential academies uplifting children of marginalized communities with high-quality education and support.',
+      accentClass: 'samajkalyan'
+    },
+    {
+      path: 'aps',
+      name: '🛡️ Army Public Schools',
+      sub: 'APS Student & Teacher Hub',
+      desc: 'Comprehensive credentials retrieval portal for teachers and students across multiple APS school branches.',
+      accentClass: 'aps'
+    },
+    {
+      path: 'kle',
+      name: '🎓 KLE Schools',
+      sub: 'Karnataka Lingayat Education',
+      desc: 'State-of-the-art educational credentials service for students and faculty across the KLE society network.',
+      accentClass: 'kle'
+    },
+    {
+      path: 'aecs',
+      name: '⚛️ Atomic Energy Central School',
+      sub: 'AECS Student & Teacher Portal',
+      desc: 'High-quality educational portal lookup servicing student and teaching staff at atomic energy central divisions.',
+      accentClass: 'aecs'
+    }
+  ];
+
+  const filteredPortals = portals.filter(p =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.sub.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="landing-page-container">
-      <div className="landing-card">
-        <h1 className="landing-title">Choose a school portal to continue</h1>
-        <div className="landing-links">
-          <a href={`${BASE}kgbv`} className="landing-link-btn">🌸 KGBV Schools</a>
-          <a href={`${BASE}samajkalyan`} className="landing-link-btn">🌿 Samaj Kalyan</a>
-          <a href={`${BASE}aps`} className="landing-link-btn">🛡️ Army Public Schools</a>
+      <div className="landing-header">
+        <div className="landing-logo-container">
+          <div className="landing-brand-badge">
+            <Sparkles size={13} style={{ marginRight: '4px' }} />
+            Adobe Express for Education
+          </div>
         </div>
+        <h1 className="landing-main-title">Unified Account Recovery Hub</h1>
+        <p className="landing-main-desc">
+          Welcome to the credentials management directory. This secure platform assists students, teachers, and school administrators in recovering their premium <a href="https://new.express.adobe.com/" target="_blank" rel="noreferrer" className="adobe-link-inline">Adobe Express for Education ↗</a> user IDs, passwords, and classroom rosters. 
+          Select your affiliated school network below to continue.
+        </p>
+      </div>
+
+      <div className="landing-search-container">
+        <div className="landing-search-wrapper">
+          <Search size={20} className="search-bar-icon" />
+          <input 
+            type="text" 
+            placeholder="Search school network or branch..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="landing-search-input"
+          />
+          {searchQuery && (
+            <button 
+              className="landing-search-clear" 
+              onClick={() => setSearchQuery('')}
+              aria-label="Clear search"
+            >
+              <X size={18} />
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="landing-grid">
+        {filteredPortals.map(p => (
+          <a key={p.path} href={`${BASE}${p.path}`} className={`landing-card-new portal-accent-${p.accentClass}`}>
+            <div className="landing-card-icon-wrapper">
+              <School size={24} />
+            </div>
+            <div className="landing-card-info">
+              <h3 className="landing-card-name">{p.name}</h3>
+              <h4 className="landing-card-sub">{p.sub}</h4>
+              <p className="landing-card-desc">{p.desc}</p>
+            </div>
+            <div className="landing-card-action">
+              <span>Access Portal</span>
+              <span className="arrow-icon">→</span>
+            </div>
+          </a>
+        ))}
+        {filteredPortals.length === 0 && (
+          <div className="landing-no-results">
+            <School size={48} className="no-results-icon" />
+            <h3>No school networks found</h3>
+            <p>We couldn't find any school network matching "{searchQuery}". Please try another search term.</p>
+            <button className="reset-search-btn" onClick={() => setSearchQuery('')}>Clear Search</button>
+          </div>
+        )}
+      </div>
+
+      {/* Modern Adobe Express Promo Section */}
+      <div className="adobe-promo-section">
+        <div className="adobe-promo-bg-glow"></div>
+        <div className="promo-split-container">
+          
+          {/* Left Column: Promo text and download buttons */}
+          <div className="promo-text-column">
+            <div className="promo-badge">Empowering Digital Creativity</div>
+            <h2 className="promo-title">Create Beautiful Classroom Work With Adobe Express</h2>
+            <p className="promo-text">
+              Adobe Express for Education gives students and teachers access to powerful generative AI tools, ready-to-use school presentation templates, poster designs, video editing features, and classroom worksheets. Download the app today and unleash your imagination.
+            </p>
+            
+            <div className="download-badges-flex">
+              <a href="https://play.google.com/store/apps/details?id=com.adobe.spark.post" target="_blank" rel="noreferrer" className="download-app-btn play-store-badge">
+                <Smartphone size={20} />
+                <div className="badge-text">
+                  <span className="badge-sub">GET IT ON</span>
+                  <span className="badge-main">Google Play</span>
+                </div>
+              </a>
+              
+              <a href="https://apps.apple.com/us/app/adobe-express-design-photo/id1051937837" target="_blank" rel="noreferrer" className="download-app-btn app-store-badge">
+                <Laptop size={20} />
+                <div className="badge-text">
+                  <span className="badge-sub">Download on the</span>
+                  <span className="badge-main">App Store</span>
+                </div>
+              </a>
+            </div>
+
+            {/* Video Link */}
+            <div className="promo-video-cta">
+              <div className="video-cta-icon">📺</div>
+              <div className="video-cta-content">
+                <h4 className="video-cta-title">Need login help?</h4>
+                <p className="video-cta-desc">Watch our step-by-step video guide to sign in easily.</p>
+                <a href="https://youtu.be/iuuC3YYBUs8?si=2eb2lmhDBSuxAyRC" target="_blank" rel="noreferrer" className="video-link-btn">
+                  Watch Login Tutorial Video
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: QRs side by side */}
+          <div className="promo-qr-column">
+            <h3 className="qr-section-title">Scan to Download App</h3>
+            <div className="qr-cards-container">
+              <div className="qr-card">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://play.google.com/store/apps/details?id=com.adobe.spark.post&hl=en_IN" alt="Play Store QR" className="qr-code-img" />
+                <span className="qr-card-label">Android QR</span>
+              </div>
+              <div className="qr-card">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tinyurl.com/yper8w4n" alt="App Store QR" className="qr-code-img" />
+                <span className="qr-card-label">iOS QR</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div className="landing-footer">
+        <p>Powered by <strong>Adobe Express for Education</strong> initiative. All Rights Reserved &copy; {new Date().getFullYear()}.</p>
       </div>
     </div>
   );
@@ -1270,6 +1973,10 @@ function App() {
   if (schoolPath === 'samajkalyan') return <SamajKalyanApp lang={lang} t={t} toggleLang={toggleLang} />;
 
   if (schoolPath === 'aps') return <APSApp lang={lang} t={t} toggleLang={toggleLang} />;
+  
+  if (schoolPath === 'kle' || schoolPath === 'aecs') {
+    return <GenericBranchApp schoolPath={schoolPath} lang={lang} t={t} toggleLang={toggleLang} />;
+  }
 
   return null;
 }

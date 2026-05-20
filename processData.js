@@ -146,13 +146,14 @@ const processAtomic = () => {
           const emailNumMatch = email.match(/\d+/);
           const emailNum = emailNumMatch ? emailNumMatch[0] : '';
           if(emailNum) {
+            let snAtomic = data.DP ? data.DP.trim() : (data.SA ? data.SA.trim() : 'Atomic Energy School');
             results.push({
               i: emailNum,
               n: data.DN || data.Name || '',
               e: email,
               p: data.PW || data.Password || '',
               s: 'ATOMIC',
-              sn: data.SA || 'Atomic Energy School'
+              sn: snAtomic
             });
           }
         } catch(err) {}
@@ -174,7 +175,7 @@ const processKles = () => {
           let email = data.ID || data[keys[2]] || '';
           let name = data.DN || data[keys[0]] || '';
           let pw = data.PW || data[keys[3]] || '';
-          let school = data.SA || data[keys[5]] || 'KLES';
+          let school = data.DP || data[keys[5]] || 'KLES';
 
           const emailNumMatch = email.match(/\d+/);
           const emailNum = emailNumMatch ? emailNumMatch[0] : '';
@@ -262,8 +263,67 @@ const processNamedTeachers = () => {
   });
 };
 
+const processKlesTeachers = () => {
+  return new Promise((resolve, reject) => {
+    const teachers = [];
+    if (!fs.existsSync('KLES IDs(Teachers).csv')) {
+      resolve(); return;
+    }
+    fs.createReadStream('KLES IDs(Teachers).csv')
+      .pipe(csv())
+      .on('data', (data) => {
+        try {
+          if (data.DP && data.DN) {
+            teachers.push({
+              sa: data.DP ? data.DP.trim() : '', // Use DP for branch name
+              dn: data.DN ? data.DN.trim() : '', // Use DN for teacher name
+              id: data.ID ? data.ID.trim() : '',
+              pw: data.PW ? data.PW.trim() : ''
+            });
+          }
+        } catch(err) {}
+      })
+      .on('end', () => {
+        fs.writeFileSync('./public/teachers_kle.json', JSON.stringify(teachers));
+        console.log(`✅ Success! Processed ${teachers.length} KLE teachers into public/teachers_kle.json!`);
+        resolve();
+      })
+      .on('error', reject);
+  });
+};
+
+const processAtomicTeachers = () => {
+  return new Promise((resolve, reject) => {
+    const teachers = [];
+    if (!fs.existsSync('Atomic Energy IDs(Teachers).csv')) {
+      resolve(); return;
+    }
+    fs.createReadStream('Atomic Energy IDs(Teachers).csv')
+      .pipe(csv())
+      .on('data', (data) => {
+        try {
+          if (data.DN) {
+            let branchName = data.DP ? data.DP.trim() : '';
+            teachers.push({
+              sa: branchName, // Use DP CT ST for branch name
+              dn: data.DN ? data.DN.trim() : '', // Use DN for teacher name
+              id: data.ID ? data.ID.trim() : '',
+              pw: data.PW ? data.PW.trim() : ''
+            });
+          }
+        } catch(err) {}
+      })
+      .on('end', () => {
+        fs.writeFileSync('./public/teachers_aecs.json', JSON.stringify(teachers));
+        console.log(`✅ Success! Processed ${teachers.length} AECS teachers into public/teachers_aecs.json!`);
+        resolve();
+      })
+      .on('error', reject);
+  });
+};
+
 console.log("Starting to process datasets...");
-Promise.all([processAps(), processKgbv(), processAshram(), processAtomic(), processKles(), processTeachers(), processNamedTeachers()])
+Promise.all([processAps(), processKgbv(), processAshram(), processAtomic(), processKles(), processTeachers(), processNamedTeachers(), processKlesTeachers(), processAtomicTeachers()])
   .then(() => {
     fs.writeFileSync('./public/students.json', JSON.stringify(results));
     console.log(`✅ Success! Processed ${results.length} students into public/students.json!`);

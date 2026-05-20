@@ -28,3 +28,7 @@ dist-ssr
 public/students.json
 public/teachers.json
 public/teachers_named.json
+
+# Backup files
+*.bak
+patch.js
